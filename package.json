@@ -1,0 +1,14 @@
+{
+  "name": "ghost4ghost-signal",
+  "version": "2.0.0",
+  "description": "Ghost4Ghost Phase 2 signaling server: matchmaking queue, friend-code rooms, WebRTC relay",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "test": "node run_tests.js"
+  },
+  "engines": { "node": ">=18" },
+  "dependencies": {
+    "ws": "^8.18.0"
+  }
+}
