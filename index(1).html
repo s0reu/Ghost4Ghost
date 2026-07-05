@@ -1,0 +1,3021 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GHOST4GHOST — Trick for trick. Cloud for cloud.</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='11' fill='none' stroke='%23FF2B3D' stroke-width='4' stroke-dasharray='52 17' stroke-linecap='round' transform='rotate(-50 16 16)'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* ============ TOKENS ============ */
+:root{
+  --ink:#0A0A0D;
+  --ink2:#0D0D11;
+  --panel:#111116;
+  --panel2:#16161C;
+  --line:#23232B;
+  --line2:#2E2E38;
+  --txt:#F5F5F7;
+  --sub:#A2A2AE;
+  --mut:#61616D;
+  --red:#FF2B3D;
+  --red-glow:rgba(255,43,61,.30);
+  --metal:linear-gradient(180deg,#FFFFFF 0%,#C4C4CF 52%,#787885 100%);
+  --fd:"Big Shoulders Display","Arial Narrow",Impact,sans-serif;
+  --fb:"Archivo","Helvetica Neue",Arial,sans-serif;
+  --fm:"IBM Plex Mono","SFMono-Regular",Consolas,monospace;
+  --rad:14px;
+  --rad-s:9px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  background:var(--ink);
+  color:var(--txt);
+  font-family:var(--fb);
+  font-size:15px;
+  line-height:1.55;
+  -webkit-font-smoothing:antialiased;
+  min-height:100vh;
+  overflow-x:hidden;
+}
+body::before{ /* grain */
+  content:"";position:fixed;inset:0;pointer-events:none;z-index:2000;opacity:.05;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+}
+::selection{background:var(--red);color:#0A0A0D}
+a{color:var(--txt)}
+button{font-family:inherit;cursor:pointer}
+input,textarea{font-family:inherit}
+:focus-visible{outline:2px solid var(--red);outline-offset:3px;border-radius:4px}
+
+/* ============ TYPE ============ */
+.d{font-family:var(--fd);text-transform:uppercase;line-height:.92;letter-spacing:.005em;font-weight:800}
+.metal{background:var(--metal);-webkit-background-clip:text;background-clip:text;color:transparent}
+.mono{font-family:var(--fm)}
+.kick{
+  font-family:var(--fm);font-size:11px;letter-spacing:.22em;text-transform:uppercase;
+  color:var(--sub);display:inline-flex;align-items:center;gap:9px;font-weight:500;
+}
+.kick .dot{width:6px;height:6px;border-radius:50%;background:var(--red);box-shadow:0 0 10px var(--red-glow);flex:none}
+
+/* ============ BUTTONS ============ */
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:9px;
+  font-family:var(--fb);font-weight:700;font-size:13px;letter-spacing:.09em;text-transform:uppercase;
+  padding:0 26px;height:50px;border-radius:var(--rad-s);border:1px solid transparent;
+  transition:transform .16s ease,box-shadow .16s ease,background .16s ease,border-color .16s ease,color .16s ease,opacity .16s ease;
+  text-decoration:none;user-select:none;white-space:nowrap;
+}
+.btn:active{transform:translateY(1px) scale(.99)}
+.btn-w{background:#F1F1F4;color:#0A0A0D}
+.btn-w:hover{background:#fff;box-shadow:0 10px 34px rgba(255,255,255,.14);transform:translateY(-1px)}
+.btn-g{background:transparent;color:var(--txt);border-color:var(--line2)}
+.btn-g:hover{border-color:#4A4A58;background:rgba(255,255,255,.03)}
+.btn-r{background:var(--red);color:#0A0A0D}
+.btn-r:hover{background:#FF4557;box-shadow:0 10px 34px var(--red-glow);transform:translateY(-1px)}
+.btn-rg{background:transparent;color:var(--red);border-color:rgba(255,43,61,.4)}
+.btn-rg:hover{border-color:var(--red);background:rgba(255,43,61,.07)}
+.btn-big{height:58px;padding:0 34px;font-size:14px}
+.btn-sm{height:38px;padding:0 16px;font-size:11px}
+.btn[disabled]{opacity:.42;cursor:default;pointer-events:none}
+.btn .b-dot{width:7px;height:7px;border-radius:50%;background:var(--red);flex:none}
+.linkish{background:none;border:none;color:var(--mut);font-family:var(--fm);font-size:11px;letter-spacing:.12em;text-transform:uppercase;padding:6px 4px}
+.linkish:hover{color:var(--sub);text-decoration:underline;text-underline-offset:4px}
+
+/* ============ CHIPS ============ */
+.chip{
+  display:inline-flex;align-items:center;gap:7px;font-family:var(--fm);font-size:10.5px;
+  letter-spacing:.14em;text-transform:uppercase;color:var(--sub);font-weight:500;
+  border:1px solid var(--line);border-radius:6px;padding:5px 10px;background:rgba(255,255,255,.02);
+}
+.chip .dot{width:6px;height:6px;border-radius:50%;background:var(--mut);flex:none}
+.chip.live{color:var(--red);border-color:rgba(255,43,61,.4)}
+.chip.live .dot{background:var(--red);animation:blink 1.1s ease-in-out infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.25}}
+
+/* ============ LAYOUT ============ */
+.wrap{max-width:1180px;margin:0 auto;padding:0 28px}
+[hidden]{display:none !important}
+.hairline{border:none;border-top:1px solid var(--line)}
+
+/* ============ SITE NAV ============ */
+#siteNav{
+  position:sticky;top:0;z-index:900;background:rgba(10,10,13,.82);backdrop-filter:blur(14px);
+  border-bottom:1px solid var(--line);
+}
+#siteNav .wrap{display:flex;align-items:center;gap:26px;height:66px}
+.brand{display:flex;align-items:center;gap:11px;text-decoration:none;background:none;border:none;padding:0}
+.brand .word{font-family:var(--fd);font-weight:800;font-size:21px;letter-spacing:.03em;color:var(--txt)}
+.brand .word em{font-style:normal;color:var(--red)}
+.ring-mark{width:24px;height:24px;flex:none}
+.navlinks{display:flex;gap:24px;margin-left:auto;align-items:center}
+.navlinks button,.navlinks a{
+  background:none;border:none;color:var(--sub);font-family:var(--fm);font-size:11px;
+  letter-spacing:.16em;text-transform:uppercase;text-decoration:none;padding:6px 2px;
+}
+.navlinks button:hover,.navlinks a:hover{color:var(--txt)}
+#siteNav .btn{height:40px;padding:0 18px;font-size:11.5px}
+
+/* ============ APP BAR ============ */
+#appBar{
+  position:sticky;top:0;z-index:900;background:rgba(10,10,13,.9);backdrop-filter:blur(14px);
+  border-bottom:1px solid var(--line);
+}
+#appBar .wrap{display:flex;align-items:center;gap:14px;height:60px}
+#abLeave{background:none;border:1px solid var(--line);color:var(--sub);border-radius:6px;height:34px;padding:0 12px;font-family:var(--fm);font-size:11px;letter-spacing:.1em;text-transform:uppercase}
+#abLeave:hover{color:var(--txt);border-color:var(--line2)}
+#abState b{color:var(--red);font-weight:600}
+.ab-right{margin-left:auto;display:flex;gap:9px;align-items:center}
+.only-duel{display:none !important}
+body[data-view="duel"] .only-duel{display:inline-flex !important}
+body[data-view="duel"] #abLeave{display:none}
+
+/* ============ AGE GATE ============ */
+#gate{
+  position:fixed;inset:0;z-index:1500;background:var(--ink);
+  display:flex;align-items:center;justify-content:center;padding:28px;
+}
+#gate .inner{max-width:520px;width:100%;text-align:center}
+#gate .ring-mark{width:52px;height:52px;margin:0 auto 26px;display:block}
+#gate h1{font-size:clamp(44px,7vw,66px)}
+#gate p.lead{color:var(--sub);margin:18px auto 30px;max-width:420px;font-size:15px}
+#gate .row{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+#gate .fine{font-family:var(--fm);font-size:10.5px;color:var(--mut);letter-spacing:.06em;line-height:1.8;margin-top:32px;max-width:460px;margin-left:auto;margin-right:auto}
+
+/* ============ HERO ============ */
+#hero{position:relative;padding:84px 0 70px;overflow:hidden}
+#hero::before{
+  content:"";position:absolute;inset:0;pointer-events:none;
+  background:
+    radial-gradient(900px 420px at 18% -10%, rgba(255,255,255,.05), transparent 60%),
+    radial-gradient(700px 400px at 95% 110%, rgba(255,43,61,.06), transparent 60%);
+}
+#hero .wrap{display:grid;grid-template-columns:1.05fr .95fr;gap:56px;align-items:center;position:relative}
+#hero h1{font-size:clamp(64px,8.4vw,124px);margin:20px 0 6px}
+#hero h1 em{font-style:normal;color:var(--red)}
+#hero .slogan{font-family:var(--fd);font-weight:700;text-transform:uppercase;font-size:clamp(22px,2.6vw,32px);letter-spacing:.02em;line-height:1.05}
+#hero p.sub{color:var(--sub);max-width:470px;margin:20px 0 30px;font-size:16px}
+#hero .ctas{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+#hero .fine{font-family:var(--fm);font-size:10.5px;letter-spacing:.1em;color:var(--mut);text-transform:uppercase;margin-top:22px}
+
+/* hero live demo card */
+#heroDemo{
+  border:1px solid var(--line);border-radius:var(--rad);background:linear-gradient(180deg,var(--panel),var(--ink2));
+  padding:16px;box-shadow:0 30px 80px rgba(0,0,0,.5);
+}
+#heroDemo .hd-top{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+#heroDemo .hd-top .mono{font-size:10.5px;letter-spacing:.14em;color:var(--mut);text-transform:uppercase}
+#heroDemo .hd-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.hd-feed{position:relative;aspect-ratio:4/3.4;border-radius:10px;overflow:hidden;border:1px solid var(--line);background:#0B0B0F;transition:border-color .3s,box-shadow .3s}
+.hd-feed.active{border-color:rgba(255,43,61,.65);box-shadow:0 0 0 1px rgba(255,43,61,.35),0 0 26px rgba(255,43,61,.14)}
+.hd-feed canvas{position:absolute;inset:0;width:100%;height:100%}
+.hd-plate{
+  position:absolute;left:8px;bottom:8px;font-family:var(--fm);font-size:10px;letter-spacing:.1em;
+  background:rgba(8,8,11,.75);border:1px solid var(--line);border-radius:5px;padding:4px 8px;color:#D8D8DF;
+}
+.hd-plate span{color:var(--mut)}
+#hdBanner{
+  margin-top:12px;display:flex;align-items:center;justify-content:space-between;gap:12px;
+  font-family:var(--fm);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--sub);
+}
+#hdBanner b{color:var(--txt);font-weight:600}
+#hdBanner b.win{color:var(--red)}
+.hd-bar{margin-top:10px;height:4px;border-radius:3px;background:var(--line);overflow:hidden}
+.hd-bar>i{display:block;height:100%;width:50%;background:var(--red);transition:width .9s cubic-bezier(.3,.9,.3,1)}
+
+/* ============ TICKER ============ */
+#ticker{border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:var(--ink2);overflow:hidden}
+.tk-track{display:flex;gap:44px;width:max-content;padding:11px 0;animation:tk 34s linear infinite}
+.tk-track span{font-family:var(--fm);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--mut);white-space:nowrap}
+.tk-track span b{color:var(--sub);font-weight:500}
+.tk-track span .r{color:var(--red)}
+@keyframes tk{to{transform:translateX(-50%)}}
+
+/* ============ SECTIONS ============ */
+.sec{padding:88px 0}
+.sec-head{display:flex;align-items:baseline;justify-content:space-between;gap:20px;margin-bottom:44px;flex-wrap:wrap}
+.sec-head h2{font-size:clamp(36px,4.6vw,58px)}
+
+/* steps */
+.steps{display:grid;grid-template-columns:repeat(5,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:var(--rad);overflow:hidden}
+.step{background:var(--panel);padding:26px 22px 30px;transition:background .2s}
+.step:hover{background:var(--panel2)}
+.step .n{font-family:var(--fm);font-size:11px;color:var(--red);letter-spacing:.18em;margin-bottom:40px;display:block}
+.step h3{font-family:var(--fd);font-weight:700;text-transform:uppercase;font-size:21px;letter-spacing:.02em;margin-bottom:9px}
+.step p{color:var(--sub);font-size:13.5px}
+
+/* modes */
+.modes{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.mode{border:1px solid var(--line);border-radius:var(--rad);background:linear-gradient(180deg,var(--panel),var(--ink2));padding:28px;display:flex;flex-direction:column;gap:12px;min-height:230px;transition:border-color .2s,transform .2s}
+.mode:hover{border-color:var(--line2);transform:translateY(-2px)}
+.mode .chip{align-self:flex-start}
+.mode h3{font-family:var(--fd);font-weight:700;text-transform:uppercase;font-size:26px}
+.mode p{color:var(--sub);font-size:13.5px;flex:1}
+.mode button{align-self:flex-start}
+
+/* safety */
+#safety .grid{display:grid;grid-template-columns:.9fr 1.1fr;gap:56px;align-items:start}
+#safety ul{list-style:none;display:flex;flex-direction:column}
+#safety li{padding:17px 2px;border-bottom:1px solid var(--line);display:flex;gap:16px;align-items:baseline;color:var(--sub);font-size:14.5px}
+#safety li:first-child{border-top:1px solid var(--line)}
+#safety li b{color:var(--txt);font-weight:600}
+#safety li .tick{font-family:var(--fm);color:var(--red);font-size:12px;flex:none}
+#safety .note{color:var(--sub);font-size:15px;max-width:420px;margin-top:18px}
+
+/* board */
+table.board{width:100%;border-collapse:collapse}
+table.board th{font-family:var(--fm);font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--mut);text-align:left;padding:0 14px 12px;font-weight:500}
+table.board td{padding:15px 14px;border-top:1px solid var(--line);font-size:14px}
+table.board tr.top td{background:rgba(255,255,255,.015)}
+td.rk{font-family:var(--fm);color:var(--mut);width:52px;font-size:12px}
+tr.top td.rk{color:var(--red)}
+td.tag{font-weight:600;letter-spacing:.02em}
+td.num{font-family:var(--fm);font-size:12.5px;color:var(--sub);text-align:right}
+td.streak{font-family:var(--fm);font-size:12.5px;text-align:right}
+.w-str{color:#E9E9EF}.l-str{color:var(--mut)}
+
+/* footer */
+footer{border-top:1px solid var(--line);padding:54px 0 64px;background:var(--ink2)}
+footer .cols{display:flex;justify-content:space-between;gap:40px;flex-wrap:wrap}
+footer .fine{font-family:var(--fm);font-size:10.5px;color:var(--mut);letter-spacing:.06em;line-height:1.9;max-width:520px;margin-top:22px}
+footer .flinks{display:flex;gap:22px;flex-wrap:wrap}
+footer .flinks button{background:none;border:none;color:var(--sub);font-family:var(--fm);font-size:11px;letter-spacing:.14em;text-transform:uppercase;padding:4px 0}
+footer .flinks button:hover{color:var(--txt)}
+
+/* ============ APP SCREENS ============ */
+.screen{min-height:calc(100vh - 60px);display:flex;align-items:center;justify-content:center;padding:56px 28px}
+.screen .inner{width:100%;max-width:880px}
+.screen .center{text-align:center}
+.screen h1{font-size:clamp(38px,5.4vw,62px)}
+.screen p.lead{color:var(--sub);margin-top:12px;font-size:15px}
+
+/* feeds */
+.feed{position:relative;border-radius:12px;overflow:hidden;border:1px solid var(--line);background:#0B0B0F;aspect-ratio:4/3;transition:border-color .3s,box-shadow .3s}
+.feed video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transform:scaleX(-1);background:#000}
+.feed canvas{position:absolute;inset:0;width:100%;height:100%}
+.feed .sil{position:absolute;inset:0;background:radial-gradient(48% 40% at 50% 34%, rgba(255,255,255,.055), transparent 70%), radial-gradient(70% 46% at 50% 96%, rgba(255,255,255,.045), transparent 70%)}
+.feed .scan{position:absolute;inset:0;pointer-events:none;background:repeating-linear-gradient(0deg,rgba(255,255,255,.014) 0 1px,transparent 1px 3px)}
+.feed .vig{position:absolute;inset:0;pointer-events:none;box-shadow:inset 0 0 70px rgba(0,0,0,.65)}
+.feed.turn{border-color:rgba(255,43,61,.7);box-shadow:0 0 0 1px rgba(255,43,61,.4),0 0 34px rgba(255,43,61,.16)}
+.feed .f-chip{position:absolute;top:10px;left:10px}
+.feed .f-sim{position:absolute;top:10px;right:10px;font-family:var(--fm);font-size:9.5px;letter-spacing:.16em;color:var(--mut);border:1px solid var(--line);border-radius:5px;padding:3px 7px;background:rgba(8,8,11,.7)}
+.plate{
+  position:absolute;left:10px;bottom:10px;display:flex;align-items:baseline;gap:9px;
+  background:rgba(8,8,11,.8);border:1px solid var(--line);border-radius:7px;padding:7px 11px;
+}
+.plate b{font-size:13.5px;letter-spacing:.02em}
+.plate span{font-family:var(--fm);font-size:10.5px;color:var(--mut);letter-spacing:.08em}
+.feed .pct{
+  position:absolute;right:10px;bottom:10px;font-family:var(--fd);font-weight:800;font-size:38px;
+  color:var(--txt);text-shadow:0 2px 18px rgba(0,0,0,.8);
+}
+
+/* camera check */
+#ccGrid{display:grid;grid-template-columns:1.1fr .9fr;gap:36px;align-items:center;margin-top:38px}
+#ccOverlay{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;text-align:center;padding:22px;background:rgba(9,9,12,.55)}
+#ccOverlay p{color:var(--sub);font-size:13px;max-width:300px}
+.tagrow{display:flex;align-items:center;border:1px solid var(--line);border-radius:var(--rad-s);background:var(--panel);overflow:hidden;margin:20px 0 8px}
+.tagrow .at{font-family:var(--fm);color:var(--mut);padding:0 4px 0 14px;font-size:14px}
+.tagrow input{
+  flex:1;background:none;border:none;color:var(--txt);font-family:var(--fm);font-size:14px;
+  letter-spacing:.04em;height:48px;outline:none;min-width:0;
+}
+.fieldnote{font-family:var(--fm);font-size:10.5px;color:var(--mut);letter-spacing:.06em;line-height:1.8}
+#ccActions{display:flex;gap:12px;margin-top:26px;flex-wrap:wrap}
+
+/* queue */
+#radar{position:relative;width:220px;height:220px;margin:44px auto 34px}
+#radar .rg{position:absolute;inset:0;border:1px solid var(--line2);border-radius:50%;animation:radar 2.6s ease-out infinite;opacity:0}
+#radar .rg:nth-child(2){animation-delay:.85s}
+#radar .rg:nth-child(3){animation-delay:1.7s}
+@keyframes radar{0%{transform:scale(.3);opacity:.9;border-color:rgba(255,43,61,.55)}100%{transform:scale(1.15);opacity:0}}
+#radar .core{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px}
+#qElapsed{font-family:var(--fm);font-size:26px;letter-spacing:.06em}
+#radar .core .lbl{font-family:var(--fm);font-size:9.5px;letter-spacing:.22em;color:var(--mut);text-transform:uppercase}
+#qMeta{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-bottom:34px}
+
+/* ready check */
+#rdGrid{display:grid;grid-template-columns:1fr 74px 1fr;gap:18px;align-items:stretch;margin:40px 0 30px}
+.pcard{border:1px solid var(--line);border-radius:var(--rad);background:linear-gradient(180deg,var(--panel),var(--ink2));padding:26px;display:flex;flex-direction:column;gap:8px;min-height:210px;transition:border-color .3s,box-shadow .3s}
+.pcard.locked{border-color:rgba(255,43,61,.55);box-shadow:0 0 0 1px rgba(255,43,61,.3)}
+.pcard .who{font-family:var(--fd);font-weight:700;text-transform:uppercase;font-size:30px;letter-spacing:.02em;word-break:break-all}
+.pcard .meta{font-family:var(--fm);font-size:11.5px;color:var(--sub);letter-spacing:.08em;line-height:2}
+.pcard .status{margin-top:auto}
+.vsmark{display:flex;align-items:center;justify-content:center;font-family:var(--fd);font-weight:800;font-size:30px;color:var(--mut)}
+#rdFail{margin:0 0 22px;border:1px solid rgba(255,43,61,.4);background:rgba(255,43,61,.06);border-radius:var(--rad-s);padding:14px 18px;font-family:var(--fm);font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--red);text-align:center}
+
+/* room wait */
+#codeBox{
+  display:flex;align-items:center;justify-content:center;gap:18px;margin:36px auto 14px;
+  border:1px solid var(--line2);border-radius:var(--rad);background:var(--panel);padding:26px 30px;max-width:460px;flex-wrap:wrap;
+}
+#rwCode{font-family:var(--fm);font-size:clamp(26px,4.5vw,38px);letter-spacing:.14em;font-weight:600}
+
+/* ============ DUEL ============ */
+#v-duel .screen{align-items:flex-start;padding-top:34px}
+#v-duel .inner{max-width:1080px}
+#dlBannerRow{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:14px;flex-wrap:wrap}
+#dlBanner{font-family:var(--fd);font-weight:700;text-transform:uppercase;font-size:clamp(20px,2.6vw,30px);letter-spacing:.02em}
+#dlBanner .r{color:var(--red)}
+#dlTimer{height:4px;border-radius:3px;background:var(--line);overflow:hidden;margin-bottom:22px}
+#dlTimer>i{display:block;height:100%;background:var(--red);width:100%;transform-origin:left}
+#dlGrid{display:grid;grid-template-columns:1fr 66px 1fr;gap:16px;align-items:center}
+#dlGrid .vsmark{font-size:26px}
+#dlControls{display:flex;justify-content:center;gap:12px;margin-top:22px;min-height:50px;align-items:center;flex-wrap:wrap}
+
+/* voting tally */
+.tally-top{display:flex;justify-content:space-between;align-items:baseline;font-family:var(--fm);font-size:12px;letter-spacing:.1em;color:var(--sub);margin-bottom:9px;text-transform:uppercase}
+.tally-top b{color:var(--txt);font-size:15px}
+.tally-bar{height:12px;border-radius:7px;background:var(--panel2);border:1px solid var(--line);overflow:hidden;display:flex}
+.tally-bar .you{background:var(--red);height:100%;width:50%;transition:width .5s cubic-bezier(.3,.9,.3,1)}
+.tally-bar .opp{background:#3A3A46;height:100%;flex:1}
+.tally-sub{display:flex;justify-content:space-between;margin-top:9px;font-family:var(--fm);font-size:10.5px;letter-spacing:.14em;color:var(--mut);text-transform:uppercase;gap:10px;flex-wrap:wrap}
+#dlTally{margin-top:24px}
+
+/* result */
+#dlResult{
+  margin-top:30px;border:1px solid var(--line2);border-radius:var(--rad);
+  background:linear-gradient(180deg,var(--panel2),var(--ink2));padding:40px 34px;text-align:center;
+  animation:pop .5s cubic-bezier(.2,1.1,.3,1);
+}
+#dlResult.win{border-color:rgba(255,43,61,.5);box-shadow:0 0 60px rgba(255,43,61,.09), inset 0 0 60px rgba(255,43,61,.04)}
+@keyframes pop{0%{opacity:0;transform:translateY(14px) scale(.98)}100%{opacity:1;transform:none}}
+#dlResTitle{font-size:clamp(40px,6vw,68px)}
+#dlResSplit{max-width:420px;margin:24px auto 8px}
+#dlResDelta{font-family:var(--fm);font-size:12.5px;letter-spacing:.14em;color:var(--sub);text-transform:uppercase;margin-top:16px}
+#dlResDelta b{color:var(--txt)}
+#dlResStatus{font-family:var(--fm);font-size:11px;letter-spacing:.14em;color:var(--mut);text-transform:uppercase;margin-top:20px;min-height:16px}
+#dlResBtns{display:flex;gap:12px;justify-content:center;margin-top:26px;flex-wrap:wrap}
+#dlResLinks{margin-top:18px;display:flex;gap:18px;justify-content:center;flex-wrap:wrap}
+
+/* ============ COUNTDOWN ============ */
+#cdOverlay{
+  position:fixed;inset:0;z-index:1200;background:rgba(7,7,10,.78);backdrop-filter:blur(10px);
+  display:flex;align-items:center;justify-content:center;flex-direction:column;gap:18px;
+}
+#cdRingWrap{position:relative;width:230px;height:230px;display:flex;align-items:center;justify-content:center}
+#cdRingWrap svg{position:absolute;inset:0;transform:rotate(-90deg)}
+#cdRingWrap circle{fill:none;stroke-width:5;stroke-linecap:round}
+#cdTrack{stroke:var(--line2)}
+#cdArc{stroke:var(--red);filter:drop-shadow(0 0 12px var(--red-glow))}
+#cdNum{font-family:var(--fd);font-weight:800;font-size:110px;line-height:1;color:var(--txt)}
+#cdNum.go{color:var(--red)}
+.punch{animation:punch .48s cubic-bezier(.2,1.4,.4,1)}
+@keyframes punch{0%{transform:scale(1.45);opacity:0}100%{transform:scale(1);opacity:1}}
+#cdLabel{font-family:var(--fm);font-size:11px;letter-spacing:.28em;color:var(--sub);text-transform:uppercase}
+
+/* ============ PAGES ============ */
+.page{padding:72px 0 100px}
+.page .wrap{max-width:860px}
+.page h1{font-size:clamp(42px,6vw,72px);margin:14px 0 34px}
+.rulelist{counter-reset:r;list-style:none}
+.rulelist li{border-top:1px solid var(--line);padding:24px 2px;display:grid;grid-template-columns:56px 1fr;gap:18px}
+.rulelist li:last-child{border-bottom:1px solid var(--line)}
+.rulelist li::before{counter-increment:r;content:counter(r,decimal-leading-zero);font-family:var(--fm);color:var(--red);font-size:12px;letter-spacing:.1em;padding-top:4px}
+.rulelist h3{font-family:var(--fd);font-weight:700;text-transform:uppercase;font-size:22px;margin-bottom:7px}
+.rulelist p{color:var(--sub);font-size:14.5px}
+.privblock{border-top:1px solid var(--line);padding:26px 2px}
+.privblock:last-of-type{border-bottom:1px solid var(--line)}
+.privblock h3{font-family:var(--fd);font-weight:700;text-transform:uppercase;font-size:22px;margin-bottom:8px}
+.privblock p{color:var(--sub);font-size:14.5px;max-width:640px}
+.backrow{margin-top:44px}
+
+/* leaderboard you-card */
+#lbYou{
+  border:1px solid var(--line2);border-radius:var(--rad);background:linear-gradient(180deg,var(--panel2),var(--ink2));
+  padding:24px 26px;display:flex;gap:30px;align-items:center;flex-wrap:wrap;margin-bottom:34px;
+}
+#lbYou .who{font-family:var(--fd);font-weight:800;text-transform:uppercase;font-size:32px}
+#lbYou .stat{font-family:var(--fm);font-size:12px;color:var(--sub);letter-spacing:.1em;text-transform:uppercase;line-height:2}
+#lbYou .stat b{color:var(--txt);font-size:15px}
+
+/* ============ MODALS ============ */
+.modal-back{position:fixed;inset:0;z-index:1300;background:rgba(6,6,9,.7);backdrop-filter:blur(6px);display:flex;align-items:center;justify-content:center;padding:24px}
+.modal{
+  width:100%;max-width:440px;border:1px solid var(--line2);border-radius:var(--rad);
+  background:linear-gradient(180deg,var(--panel2),var(--panel));padding:30px;
+  animation:pop .3s cubic-bezier(.2,1.1,.3,1);
+}
+.modal h2{font-family:var(--fd);font-weight:700;text-transform:uppercase;font-size:28px;margin-bottom:6px}
+.modal p.mlead{color:var(--sub);font-size:13.5px;margin-bottom:20px}
+.modal .mrow{display:flex;gap:10px;justify-content:flex-end;margin-top:24px;flex-wrap:wrap}
+.codeinput{
+  width:100%;background:var(--ink);border:1px solid var(--line2);border-radius:var(--rad-s);
+  color:var(--txt);font-family:var(--fm);font-size:22px;letter-spacing:.22em;text-align:center;
+  height:60px;outline:none;text-transform:uppercase;
+}
+.codeinput:focus{border-color:var(--red)}
+.rlist{display:flex;flex-direction:column;gap:2px;margin:6px 0 14px}
+.rlist label{
+  display:flex;gap:11px;align-items:center;padding:10px 12px;border-radius:8px;
+  color:var(--sub);font-size:13.5px;cursor:pointer;
+}
+.rlist label:hover{background:rgba(255,255,255,.03)}
+.rlist input{accent-color:var(--red)}
+.modal textarea{
+  width:100%;background:var(--ink);border:1px solid var(--line);border-radius:var(--rad-s);color:var(--txt);
+  font-size:13.5px;padding:12px;min-height:74px;resize:vertical;outline:none;
+}
+.modal textarea:focus{border-color:var(--line2)}
+.blockrow{display:flex;gap:10px;align-items:center;margin-top:14px;color:var(--sub);font-size:13.5px}
+.blockrow input{accent-color:var(--red)}
+
+/* ============ TOAST / DEMO ============ */
+#toastRoot{position:fixed;bottom:26px;left:50%;transform:translateX(-50%);z-index:1600;display:flex;flex-direction:column;gap:9px;align-items:center;pointer-events:none}
+.toast{
+  font-family:var(--fm);font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--txt);
+  background:rgba(16,16,21,.94);border:1px solid var(--line2);border-radius:8px;padding:11px 18px;
+  animation:pop .3s cubic-bezier(.2,1.1,.3,1);box-shadow:0 14px 40px rgba(0,0,0,.5);white-space:nowrap;max-width:92vw;overflow:hidden;text-overflow:ellipsis;
+}
+#demoChip{
+  position:fixed;left:18px;bottom:18px;z-index:1100;display:flex;gap:10px;align-items:center;
+  font-family:var(--fm);font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--mut);
+  border:1px solid var(--line);background:rgba(12,12,16,.9);border-radius:7px;padding:7px 10px;
+}
+#demoChip button{background:none;border:none;color:var(--mut);font-size:12px;padding:0 2px}
+#demoChip button:hover{color:var(--txt)}
+
+/* ============ PHASE 2: NET ============ */
+#dlRemote{transform:none !important}
+.connov{
+  position:absolute;inset:0;z-index:2;display:flex;align-items:center;justify-content:center;gap:10px;
+  font-family:var(--fm);font-size:10.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--sub);
+  background:rgba(9,9,12,.5);
+}
+.connov span{width:9px;height:9px;border-radius:50%;border:2px solid var(--red);border-top-color:transparent;animation:spin 1s linear infinite;flex:none}
+@keyframes spin{to{transform:rotate(360deg)}}
+.chip.on{color:#E9E9F0;border-color:#3A3A46}
+.chip.on .dot{background:#E9E9F0}
+
+/* ============ RESPONSIVE ============ */
+@media (max-width:960px){
+  #hero .wrap{grid-template-columns:1fr;gap:44px}
+  .steps{grid-template-columns:1fr 1fr}
+  .modes{grid-template-columns:1fr}
+  #safety .grid{grid-template-columns:1fr;gap:30px}
+  #ccGrid{grid-template-columns:1fr;gap:26px}
+  #dlGrid{grid-template-columns:1fr;gap:14px}
+  #dlGrid .vsmark{display:none}
+  #rdGrid{grid-template-columns:1fr;gap:12px}
+  .vsmark{padding:4px 0}
+  .navlinks a.hidem,.navlinks button.hidem{display:none}
+}
+@media (max-width:560px){
+  .steps{grid-template-columns:1fr}
+  .wrap{padding:0 18px}
+  #hero{padding:56px 0 50px}
+  .sec{padding:60px 0}
+  .feed{aspect-ratio:4/3.1}
+}
+/* ============ REDUCED MOTION ============ */
+@media (prefers-reduced-motion:reduce){
+  *{animation-duration:.001s !important;transition-duration:.05s !important}
+  .tk-track{animation:none}
+  #radar .rg{animation:none;opacity:.3;transform:scale(.8)}
+}
+</style>
+<style id="arcadeSkin">
+/* ═══════════════════════════════════════════════════════════
+   GHOST4GHOST · CLOUD ARCADE SKIN
+   Simple, dark, and juicy. The palette is the vape-shop wall:
+   grape, menthol, mango. The signature moves are clouds and
+   O-rings — buttons puff a vapor ring when tapped, the cursor
+   IS a smoke ring, live things glow mint like a mod LED.
+   Red is spent on danger only. Engine untouched.
+   ═══════════════════════════════════════════════════════════ */
+
+/* ---------- 1 · TOKENS: the flavor wall ---------- */
+:root{
+  --ink:#12131A;
+  --ink2:#0E0F15;
+  --panel:#181A23;
+  --panel2:#1E212C;
+  --line:#272B3A;
+  --line2:#363C55;
+  --txt:#F2F3F8;
+  --sub:#ACB0C8;
+  --mut:#8A90B0;
+  --grape:#A78BFA;          /* grape ice */
+  --mint:#4EE6C1;           /* menthol — the brand's pulse */
+  --mango:#FFB35C;          /* mango — wins & warmth */
+  --red:#FF4155;            /* danger only */
+  --grape-glow:rgba(167,139,250,.35);
+  --mint-glow:rgba(78,230,193,.35);
+  --mango-glow:rgba(255,179,92,.35);
+  --red-glow:rgba(255,65,85,.30);
+  --juice:linear-gradient(115deg,var(--grape) 0%,var(--mint) 100%);
+  --metal:linear-gradient(115deg,#C9B8FF 0%,#7FF0D2 100%);   /* headings drink the juice */
+  --fd:"Bricolage Grotesque","Space Grotesk",Arial,sans-serif;
+  --fb:"Space Grotesk","Helvetica Neue",Arial,sans-serif;
+  --fm:"JetBrains Mono","SFMono-Regular",Consolas,monospace;
+  --rad:20px;
+  --rad-s:12px;
+  --spring:cubic-bezier(.34,1.56,.64,1);     /* overshoot = bounce */
+  --ease:cubic-bezier(.22,.8,.24,1);
+}
+
+/* ---------- 2 · ATMOSPHERE: two clouds, one ember ---------- */
+html{background:var(--ink2)}
+body{background:transparent;color:var(--txt);font-family:var(--fb)}
+::selection{background:rgba(78,230,193,.3);color:#fff}
+:focus-visible{outline:2px solid var(--mint);outline-offset:3px;border-radius:6px}
+
+#fxBlobs{position:fixed;inset:-10%;z-index:-1;pointer-events:none;overflow:hidden}
+#fxBlobs .blob{position:absolute;border-radius:50%;filter:blur(80px);will-change:transform;transform:translateZ(0)}
+#fxBlobs .b1{width:54vmax;height:54vmax;left:-12%;top:-16%;
+  background:radial-gradient(circle,rgba(167,139,250,.16),transparent 62%);
+  animation:drift1 44s ease-in-out infinite alternate}
+#fxBlobs .b2{width:48vmax;height:48vmax;right:-14%;top:30%;
+  background:radial-gradient(circle,rgba(78,230,193,.13),transparent 60%);
+  animation:drift2 56s ease-in-out infinite alternate}
+#fxBlobs .b3{width:32vmax;height:32vmax;left:28%;bottom:-18%;
+  background:radial-gradient(circle,rgba(255,179,92,.10),transparent 60%);
+  animation:drift3 64s ease-in-out infinite alternate}
+@keyframes drift1{to{transform:translate(8vw,6vh) scale(1.12)}}
+@keyframes drift2{to{transform:translate(-7vw,-5vh) scale(1.08)}}
+@keyframes drift3{to{transform:translate(5vw,-7vh) scale(1.15)}}
+
+/* ---------- 3 · TYPE: loud but friendly ---------- */
+.d{
+  font-family:var(--fd);
+  font-weight:800;
+  text-transform:none;
+  letter-spacing:-.015em;
+  line-height:1.04;
+}
+h2.d{font-size:clamp(32px,4.5vw,46px)}
+h3{font-family:var(--fd);font-weight:700;font-size:20px}
+.metal{
+  background:var(--metal);
+  -webkit-background-clip:text;background-clip:text;
+  -webkit-text-fill-color:transparent;color:transparent;
+}
+.kick{color:var(--mint);letter-spacing:.22em;font-weight:600}
+.kick .dot{
+  width:9px;height:9px;background:transparent;
+  border:2px solid var(--mint);border-radius:50%;
+  box-shadow:0 0 10px var(--mint-glow);           /* a tiny O ring */
+}
+p,.sub,.lead{color:var(--sub);line-height:1.65}
+.fine{color:var(--mut)}
+.mono,.chip,.toast{font-family:var(--fm)}
+
+/* ---------- 4 · BUTTONS: squishy, and they exhale ---------- */
+.btn{
+  font-family:var(--fb);font-weight:700;letter-spacing:.1em;
+  border-radius:999px;
+  position:relative;
+  transition:transform .45s var(--spring), box-shadow .35s var(--ease),
+             border-color .3s, background-color .3s, color .3s;
+  will-change:transform;
+}
+.btn:hover{transform:translateY(-2px) scale(1.02)}
+.btn:active{transform:scale(.94);transition-duration:.1s}
+/* the puff: every press blows a little O (works on taps too) */
+.btn::after{
+  content:"";position:absolute;inset:-3px;border-radius:inherit;
+  border:2px solid var(--mint);opacity:0;pointer-events:none;
+  transform:scale(.95);
+}
+.btn:active::after{animation:puff .5s ease-out}
+@keyframes puff{
+  0%{opacity:.9;transform:scale(.96)}
+  100%{opacity:0;transform:scale(1.45)}
+}
+.btn-r::after,.btn-rg::after{border-color:var(--red)}
+
+.btn-w{
+  background:var(--juice);
+  color:#0C1512;
+  box-shadow:0 10px 30px -14px var(--mint-glow), 0 0 0 1px rgba(255,255,255,.05);
+}
+.btn-w:hover{box-shadow:0 14px 40px -12px var(--mint-glow), 0 0 30px -8px var(--grape-glow)}
+.btn-g{border-color:rgba(78,230,193,.35);color:var(--txt)}
+.btn-g:hover{
+  border-color:var(--mint);
+  background:rgba(78,230,193,.08);
+  box-shadow:0 0 24px -8px var(--mint-glow);
+}
+.btn-r{background:var(--red);box-shadow:0 8px 28px -14px var(--red-glow)}
+.btn-rg:hover{border-color:var(--red);box-shadow:0 0 20px -8px var(--red-glow)}
+.b-dot{
+  width:9px;height:9px;background:transparent;
+  border:2px solid #0C1512;border-radius:50%;
+}
+
+/* ---------- 5 · CHIPS + LINKS + NAV ---------- */
+.chip{border-color:var(--line2);color:var(--sub);border-radius:999px}
+.chip .dot{animation:pulse 2.4s ease-in-out infinite}
+.chip.live,.f-chip.live{color:var(--mint);border-color:rgba(78,230,193,.4)}
+.chip.live .dot,.f-chip.live .dot{background:var(--mint);box-shadow:0 0 10px var(--mint-glow)}
+.chip.on{color:var(--mint);border-color:rgba(78,230,193,.4)}
+.chip.on .dot{background:var(--mint);box-shadow:0 0 10px var(--mint-glow)}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+
+.r{color:var(--mango)}
+.modal .r{color:var(--red)}
+
+.linkish,.navlinks a,.flinks a{
+  text-decoration:none;
+  background-image:linear-gradient(90deg,var(--mint),var(--grape));
+  background-repeat:no-repeat;background-size:0% 2px;background-position:0 100%;
+  transition:background-size .3s var(--ease), color .25s;
+  padding-bottom:2px;
+}
+.linkish:hover,.navlinks a:hover,.flinks a:hover{color:var(--mint);background-size:100% 2px}
+
+#siteNav,#appBar{
+  background:rgba(18,19,26,.78);
+  backdrop-filter:blur(12px) saturate(1.25);
+  -webkit-backdrop-filter:blur(12px) saturate(1.25);
+  border-bottom:1px solid var(--line);
+}
+.ring-mark{filter:drop-shadow(0 0 8px var(--mint-glow))}
+#abState b{color:var(--mint)}
+
+/* ---------- 6 · HERO: the sign above the shop ---------- */
+#hero h1.d{
+  font-size:clamp(54px,10.5vw,132px);
+  font-weight:800;letter-spacing:-.02em;
+  background:var(--juice);
+  -webkit-background-clip:text;background-clip:text;
+  -webkit-text-fill-color:transparent;color:transparent;
+}
+#hero h1.d em{
+  font-style:normal;
+  display:inline-block;
+  transform:rotate(-7deg) translateY(-2%);
+  background:linear-gradient(150deg,var(--mango),#FF8E6B);
+  -webkit-background-clip:text;background-clip:text;
+  -webkit-text-fill-color:transparent;
+  transition:transform .5s var(--spring);
+}
+#hero h1.d:hover em{transform:rotate(6deg) translateY(-6%) scale(1.08)}
+.slogan{font-weight:700;font-size:clamp(19px,2.4vw,24px);letter-spacing:-.01em}
+
+#heroDemo{
+  border:1px solid var(--line2);
+  border-radius:22px;
+  box-shadow:0 26px 70px -36px rgba(0,0,0,.85), 0 0 46px -22px var(--mint-glow);
+  transform:rotate(-1.2deg);
+  animation:cardFloat 7s ease-in-out infinite;
+  transition:transform .6s var(--spring), box-shadow .5s var(--ease);
+  will-change:transform;
+}
+#heroDemo:hover{transform:rotate(0) translateY(-5px)}
+@keyframes cardFloat{0%,100%{translate:0 0}50%{translate:0 -7px}}
+.hd-feed{border-color:var(--line);border-radius:14px}
+.hd-feed.active{border-color:var(--mint);box-shadow:0 0 0 1px rgba(78,230,193,.45), 0 0 26px -8px var(--mint-glow)}
+#hdBanText.win{color:var(--mango)}
+.hd-bar i,#dlTimerFill{background:var(--juice)}
+
+#ticker{border-color:var(--line)}
+.tk-track{font-size:12px}
+.tk-track b{color:var(--txt)}
+
+/* ---------- 7 · SECTIONS: sticker energy, straight grid ---------- */
+.sec-head .kick{
+  background:var(--panel2);
+  border:1px solid var(--line2);
+  padding:7px 14px;border-radius:999px;
+  display:inline-flex;
+  transform:rotate(-1.5deg);            /* a sticker slapped on */
+}
+.step,.mode,.pcard{
+  border-color:var(--line);
+  border-radius:20px;
+  transition:transform .5s var(--spring), border-color .3s, box-shadow .45s var(--ease);
+}
+.step:hover,.mode:hover,.pcard:hover{
+  transform:translateY(-6px) rotate(-.5deg);
+  border-color:rgba(78,230,193,.5);
+  box-shadow:0 20px 44px -26px rgba(0,0,0,.85), 0 0 26px -12px var(--mint-glow);
+}
+/* flavor-dot step numbers: grape, mint, mango, repeat */
+.step .n{
+  font-family:var(--fm);font-weight:600;font-size:13px;
+  padding:3px 10px;border-radius:10px;
+  background:rgba(167,139,250,.14);color:var(--grape);
+}
+.step:nth-child(2) .n{background:rgba(78,230,193,.12);color:var(--mint)}
+.step:nth-child(3) .n{background:rgba(255,179,92,.14);color:var(--mango)}
+.step:nth-child(4) .n{background:rgba(167,139,250,.14);color:var(--grape)}
+.step:nth-child(5) .n{background:rgba(78,230,193,.12);color:var(--mint)}
+.mode h3{font-size:23px}
+
+/* ---------- 8 · REVEALS: pop, not fog ---------- */
+html.fx [data-reveal]{
+  opacity:0;
+  transform:translateY(22px) scale(.985);
+  transition:opacity .55s var(--ease), transform .55s var(--spring);
+  transition-delay:var(--rd,0s);
+  will-change:opacity,transform;
+}
+html.fx [data-reveal].is-in{opacity:1;transform:none}
+html.fx [data-reveal] :is(.step,.mode,.pcard,.stat){
+  opacity:0;transform:translateY(16px) scale(.985);
+  transition:opacity .5s var(--ease), transform .5s var(--spring);
+}
+html.fx [data-reveal].is-in :is(.step,.mode,.pcard,.stat){opacity:1;transform:none}
+html.fx [data-reveal].is-in :is(.step,.mode,.pcard,.stat):nth-child(1){transition-delay:.06s}
+html.fx [data-reveal].is-in :is(.step,.mode,.pcard,.stat):nth-child(2){transition-delay:.14s}
+html.fx [data-reveal].is-in :is(.step,.mode,.pcard,.stat):nth-child(3){transition-delay:.22s}
+html.fx [data-reveal].is-in :is(.step,.mode,.pcard,.stat):nth-child(4){transition-delay:.30s}
+html.fx [data-reveal].is-in :is(.step,.mode,.pcard,.stat):nth-child(5){transition-delay:.38s}
+
+/* ---------- 9 · AGE GATE ---------- */
+#gate{
+  background:rgba(12,13,20,.86);
+  backdrop-filter:blur(10px);
+  -webkit-backdrop-filter:blur(10px);
+}
+#gate h1.d{font-size:clamp(36px,6vw,52px)}
+
+/* ---------- 10 · APP SCREENS ---------- */
+#v-camcheck h2.d,#v-queue h2.d,#v-roomwait h2.d,#v-ready h2.d,
+#v-leaderboard h2.d,#v-rules h2.d,#v-privacy h2.d{
+  font-size:clamp(30px,4.2vw,40px);
+}
+.feed{border-radius:20px;border-color:var(--line)}
+.feed.turn{
+  border-color:var(--mint);
+  box-shadow:0 0 0 1px rgba(78,230,193,.55), 0 0 38px -10px var(--mint-glow);   /* mod-LED ring */
+}
+.plate{border-color:var(--line2);border-radius:10px;backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
+.f-sim{color:var(--grape);border-color:rgba(167,139,250,.35);border-radius:8px}
+.sil{
+  background:
+    radial-gradient(48% 40% at 50% 34%, rgba(78,230,193,.06), transparent 70%),
+    radial-gradient(70% 46% at 50% 96%, rgba(167,139,250,.05), transparent 70%);
+}
+.connov{background:rgba(12,13,20,.55)}
+.connov span{border-color:var(--mint);border-top-color:transparent}
+
+#v-queue .core{
+  border-color:rgba(78,230,193,.4);
+  box-shadow:0 0 32px -8px var(--mint-glow), inset 0 0 22px -10px var(--mint-glow);
+}
+#qElapsed,#qOnline{color:var(--mint)}
+
+#rwCode{
+  font-family:var(--fm);
+  letter-spacing:.3em;
+  color:var(--mint);
+  text-shadow:0 0 22px var(--mint-glow);
+}
+
+.you,.opp{border-color:var(--line);border-radius:20px;transition:border-color .3s, box-shadow .4s var(--ease)}
+.you.locked,.opp.locked,#rdYouCard.locked,#rdOppCard.locked{
+  border-color:var(--mint);
+  box-shadow:0 0 0 1px rgba(78,230,193,.4), 0 0 30px -12px var(--mint-glow);
+}
+.vsmark{
+  font-family:var(--fd);font-weight:800;
+  color:var(--mango);
+  display:inline-block;transform:rotate(-5deg);
+}
+.status.live{color:var(--mint)}
+
+/* ---------- 11 · DUEL ---------- */
+#dlBanner{font-family:var(--fd);font-weight:700;font-size:clamp(18px,2.3vw,24px);letter-spacing:-.01em}
+#dlBanner .r{color:var(--mango)}
+.tally-bar{background:rgba(78,230,193,.12);border-radius:999px}
+.tally-bar i,#dlBarYou{background:var(--juice);border-radius:999px}
+.pct{color:var(--mint)}
+
+#dlResult{
+  border-color:var(--line2);
+  border-radius:22px;
+  box-shadow:0 26px 70px -36px rgba(0,0,0,.85), 0 0 46px -22px var(--grape-glow);
+}
+#dlResult.win{
+  border-color:rgba(255,179,92,.5);
+  box-shadow:0 26px 70px -36px rgba(0,0,0,.85), 0 0 56px -18px var(--mango-glow);
+}
+#dlResKick{
+  font-family:var(--fm);font-weight:600;font-size:11px;
+  letter-spacing:.22em;text-transform:uppercase;
+  color:var(--mint);
+}
+#dlResult.win #dlResKick{color:var(--mango)}
+#dlResTitle{font-size:clamp(32px,5vw,46px);font-weight:800}
+#dlResBarYou{box-shadow:0 0 16px -4px var(--mint-glow)}
+
+/* ---------- 12 · COUNTDOWN ---------- */
+#cdOverlay{
+  background:rgba(11,12,18,.75);
+  backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+}
+#cdArc{stroke:var(--mint);filter:drop-shadow(0 0 14px var(--mint-glow))}
+#cdNum{font-family:var(--fd);font-weight:800;font-size:clamp(92px,15vw,128px)}
+#cdNum.go{color:var(--mango);text-shadow:0 0 50px var(--mango-glow)}
+
+/* ---------- 13 · MODALS + TOASTS ---------- */
+.modal-back{
+  background:rgba(11,12,18,.62);
+  backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+}
+.modal{
+  border:1px solid var(--line2);
+  border-radius:20px;
+  box-shadow:0 34px 90px -36px rgba(0,0,0,.9), 0 0 50px -24px var(--grape-glow);
+}
+.toast{
+  border-color:rgba(78,230,193,.35);
+  border-radius:14px;
+  background:rgba(22,24,33,.94);
+  box-shadow:0 12px 34px -16px rgba(0,0,0,.8), 0 0 22px -10px var(--mint-glow);
+}
+.codeinput{font-family:var(--fm);letter-spacing:.26em;border-color:var(--line2);border-radius:14px}
+.codeinput:focus{border-color:var(--mint);box-shadow:0 0 0 3px rgba(78,230,193,.16)}
+
+/* ---------- 14 · PAGES ---------- */
+.board .row{transition:background-color .25s, box-shadow .3s}
+.board .row:hover{background:rgba(78,230,193,.05);box-shadow:inset 3px 0 0 var(--mint)}
+.rk{font-family:var(--fm);font-weight:600;color:var(--grape)}
+.w-str{color:var(--mint)}
+.l-str{color:var(--mut)}
+.rulelist li::marker{color:var(--mint)}
+.hairline{background:linear-gradient(90deg,transparent,rgba(78,230,193,.35),transparent);height:1px;border:0}
+
+/* ---------- 15 · CURSOR: you ARE the smoke ring (desktop) ---------- */
+#fxCursor{display:none}
+html.fine-pointer #fxCursor{display:block;position:fixed;left:0;top:0;z-index:9999;pointer-events:none}
+html.fine-pointer,html.fine-pointer body,html.fine-pointer a,
+html.fine-pointer button,html.fine-pointer input,html.fine-pointer label{cursor:none}
+#fxCursor .c-dot{
+  position:fixed;left:0;top:0;
+  width:6px;height:6px;margin:-3px 0 0 -3px;border-radius:50%;
+  background:var(--mint);
+  box-shadow:0 0 10px var(--mint-glow);
+  will-change:transform;
+}
+#fxCursor .c-ring{
+  position:fixed;left:0;top:0;
+  width:30px;height:30px;margin:-15px 0 0 -15px;border-radius:50%;
+  border:2px solid rgba(78,230,193,.8);
+  box-shadow:0 0 16px -4px var(--mint-glow), inset 0 0 10px -4px var(--mint-glow);
+  transition:width .4s var(--spring), height .4s var(--spring),
+             margin .4s var(--spring), border-color .25s, background-color .25s, opacity .25s;
+  will-change:transform;
+}
+html.cursor-hot #fxCursor .c-ring{
+  width:52px;height:52px;margin:-26px 0 0 -26px;
+  border-color:var(--grape);
+  background:rgba(167,139,250,.08);
+  box-shadow:0 0 22px -6px var(--grape-glow);
+}
+/* press = inhale (ring tightens), release springs back = exhale */
+html.cursor-down #fxCursor .c-ring{
+  width:16px;height:16px;margin:-8px 0 0 -8px;
+  border-color:var(--mango);
+}
+
+/* ---------- 16 · VIEW TRANSITIONS + BOOT ---------- */
+@keyframes viewIn{
+  from{opacity:0;transform:translateY(12px) scale(.995)}
+  to{opacity:1;transform:none}
+}
+section[data-view].v-in{animation:viewIn .45s var(--spring) both}
+#bootVeil{
+  position:fixed;inset:0;z-index:9998;
+  background:var(--ink2);
+  pointer-events:none;
+  transition:opacity .7s ease .1s;
+}
+#bootVeil.off{opacity:0}
+
+/* ---------- 17 · MOBILE ---------- */
+@media (max-width:720px){
+  #heroDemo{transform:rotate(0);animation-duration:9s}
+  #fxBlobs .blob{filter:blur(60px)}
+  #fxBlobs .b3{display:none}
+  .sec-head .kick{transform:rotate(0)}
+}
+
+/* ---------- 18 · REDUCED MOTION ---------- */
+@media (prefers-reduced-motion: reduce){
+  #fxBlobs .blob,#heroDemo,.chip .dot,.btn:active::after{animation:none !important}
+  #heroDemo{transform:rotate(0)}
+  html.fx [data-reveal],
+  html.fx [data-reveal] :is(.step,.mode,.pcard,.stat){
+    opacity:1 !important;transform:none !important;transition:none !important;
+  }
+  section[data-view].v-in{animation:none}
+  #bootVeil{display:none}
+  .btn,#fxCursor .c-ring,#hero h1.d em{transition-duration:.01s}
+}
+
+</style>
+</head>
+<body data-view="landing">
+<!-- SPECTRAL FX: ambient light bleed, film grain, custom cursor (decorative, pointer-transparent) -->
+<div id="fxBlobs" aria-hidden="true"><i class="blob b1"></i><i class="blob b2"></i><i class="blob b3"></i></div>
+<div id="fxCursor" aria-hidden="true"><span class="c-dot"></span><span class="c-ring"></span></div>
+<!-- ============ AGE GATE ============ -->
+<div id="gate" role="dialog" aria-modal="true" aria-label="Age verification">
+  <div class="inner" id="gateMain">
+    <svg class="ring-mark" viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="11" fill="none" stroke="#FF2B3D" stroke-width="4" stroke-dasharray="52 17" stroke-linecap="round" transform="rotate(-50 16 16)"/></svg>
+    <div class="kick" style="justify-content:center"><span class="dot"></span>Ghost4Ghost · Age-gated entry</div>
+    <h1 class="d metal" style="margin-top:14px">Legal age only.</h1>
+    <p class="lead">Ghost4Ghost hosts live video of adult vape trick competition. You must be of legal age to purchase vapor products where you live to enter.</p>
+    <div class="row">
+      <button class="btn btn-w btn-big" id="gateEnter">I'm of legal age — Enter</button>
+      <button class="btn btn-g btn-big" id="gateExit">I'm not — Exit</button>
+    </div>
+    <p class="fine">By entering, you confirm you meet the legal age requirement for vapor products in your jurisdiction and accept the House Rules. Ghost4Ghost sells nothing, makes no health claims, and does not encourage anyone to start vaping.</p>
+  </div>
+  <div class="inner" id="gateDeny" hidden>
+    <svg class="ring-mark" viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="11" fill="none" stroke="#61616D" stroke-width="4" stroke-dasharray="52 17" stroke-linecap="round" transform="rotate(-50 16 16)"/></svg>
+    <h1 class="d metal">Come back when it's legal.</h1>
+    <p class="lead">Ghost4Ghost is strictly for legal-age adults. No exceptions, no appeals.</p>
+    <button class="linkish" id="gateBack">← Back</button>
+  </div>
+</div>
+
+<!-- ============ SITE NAV ============ -->
+<header id="siteNav">
+  <div class="wrap">
+    <button class="brand" data-go="landing" aria-label="Ghost4Ghost home">
+      <svg class="ring-mark" viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="11" fill="none" stroke="#FF2B3D" stroke-width="4" stroke-dasharray="52 17" stroke-linecap="round" transform="rotate(-50 16 16)"/></svg>
+      <span class="word">GHOST<em>4</em>GHOST</span>
+    </button>
+    <nav class="navlinks" aria-label="Site">
+      <a href="#how" class="hidem" data-anchor>How it works</a>
+      <a href="#modes" class="hidem" data-anchor>Modes</a>
+      <button data-go="leaderboard">The Board</button>
+      <button data-go="rules" class="hidem">Rules</button>
+      <button class="btn btn-w" id="navFind"><span class="b-dot"></span>Find Duel</button>
+    </nav>
+  </div>
+</header>
+
+<!-- ============ APP BAR ============ -->
+<header id="appBar" hidden>
+  <div class="wrap">
+    <button id="abLeave">← Leave</button>
+    <button class="brand" data-go-safe aria-label="Ghost4Ghost">
+      <svg class="ring-mark" viewBox="0 0 32 32" style="width:20px;height:20px" aria-hidden="true"><circle cx="16" cy="16" r="11" fill="none" stroke="#FF2B3D" stroke-width="4" stroke-dasharray="52 17" stroke-linecap="round" transform="rotate(-50 16 16)"/></svg>
+      <span class="word" style="font-size:16px">GHOST<em>4</em>GHOST</span>
+    </button>
+    <span class="chip mono" id="abState">STATE: <b>—</b></span>
+    <span class="chip mono" id="abRoom" hidden>ROOM —</span>
+    <span class="chip mono" id="abNet" hidden>OFFLINE</span>
+    <div class="ab-right">
+      <span class="chip only-duel" id="abViewers"><span class="dot"></span>0 watching</span>
+      <button class="btn btn-rg btn-sm only-duel" id="abReport">⚑ Report</button>
+      <button class="btn btn-rg btn-sm only-duel" id="abEnd">End Duel</button>
+    </div>
+  </div>
+</header>
+
+<main>
+<!-- ============ LANDING ============ -->
+<section data-view="landing" id="v-landing">
+  <div id="hero">
+    <div class="wrap">
+      <div>
+        <div class="kick"><span class="dot"></span>Live 1v1 vape trick duels · Legal-age adults only</div>
+        <h1 data-reveal class="d">GHOST<em>4</em>GHOST</h1>
+        <div data-reveal class="slogan metal">Trick for trick. Cloud for cloud.</div>
+        <p data-reveal class="sub">Go live in a 1v1 vape trick duel. Two cameras, one countdown — the room decides. Queue against the world or settle it with a friend code.</p>
+        <div data-reveal class="ctas">
+          <button class="btn btn-w btn-big" id="btnFind"><span class="b-dot"></span>Find Duel</button>
+          <button class="btn btn-g btn-big" id="btnCreate">Create Room</button>
+          <button class="btn btn-g btn-big" id="btnJoin">Join With Code</button>
+        </div>
+        <p data-reveal class="fine">Camera required · Report or end any duel, anytime · No exceptions on age</p>
+        <div data-reveal style="margin-top:16px"><span class="chip" id="landNet"><span class="dot"></span>Checking server…</span></div>
+      </div>
+
+      <div data-reveal id="heroDemo" aria-hidden="true">
+        <div class="hd-top">
+          <span class="chip live"><span class="dot"></span>Live</span>
+          <span class="mono">Room GHST-70K4 · 31 watching</span>
+        </div>
+        <div class="hd-grid">
+          <div class="hd-feed" id="hdFeedA">
+            <div class="sil"></div><canvas id="hdA"></canvas><div class="scan"></div><div class="vig"></div>
+            <div class="hd-plate">HALODRIFT <span>· 2841 GR</span></div>
+          </div>
+          <div class="hd-feed" id="hdFeedB">
+            <div class="sil"></div><canvas id="hdB"></canvas><div class="scan"></div><div class="vig"></div>
+            <div class="hd-plate">jelly.motion <span>· 2298 GR</span></div>
+          </div>
+        </div>
+        <div id="hdBanner"><b id="hdBanText">HALODRIFT'S TURN</b><span id="hdBanRight">ROUND 1</span></div>
+        <div class="hd-bar"><i id="hdBarFill"></i></div>
+      </div>
+    </div>
+  </div>
+
+  <div id="ticker" aria-hidden="true">
+    <div class="tk-track" id="tkTrack"></div>
+  </div>
+
+  <div class="sec" data-reveal id="how">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2 class="d metal">How a duel runs</h2>
+        <span class="kick">Five steps · One verdict</span>
+      </div>
+      <div class="steps">
+        <div class="step"><span class="n">01</span><h3>Create or find</h3><p>Spin up a private room or hit the global queue. Either way, it's 1v1.</p></div>
+        <div class="step"><span class="n">02</span><h3>Ready your camera</h3><p>Preview your feed, claim your tag, lock in when you're set.</p></div>
+        <div class="step"><span class="n">03</span><h3>Perform</h3><p>One countdown. Your trick, live, face-on. Then theirs.</p></div>
+        <div class="step"><span class="n">04</span><h3>The room votes</h3><p>No judges' table. Viewers tally the verdict in real time.</p></div>
+        <div class="step"><span class="n">05</span><h3>Run it back</h3><p>Rematch on the spot, climb the board, or ghost.</p></div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="hairline">
+
+  <div class="sec" data-reveal id="modes">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2 class="d metal">Three ways in</h2>
+        <span class="kick">Pick your arena</span>
+      </div>
+      <div class="modes">
+        <div class="mode">
+          <span class="chip live"><span class="dot"></span>Global queue</span>
+          <h3>Find Duel</h3>
+          <p>Tap once and we pair you with the next available ghost near your rating. Ready check, countdown, run it.</p>
+          <button class="btn btn-w" data-start="global">Find Duel</button>
+        </div>
+        <div class="mode">
+          <span class="chip"><span class="dot"></span>Private</span>
+          <h3>Friend Code</h3>
+          <p>Spin a private room and share a short code. First ghost to enter it takes the other slot.</p>
+          <button class="btn btn-g" data-start="host">Create Room</button>
+        </div>
+        <div class="mode">
+          <span class="chip"><span class="dot"></span>The verdict</span>
+          <h3>Room Vote</h3>
+          <p>Open your duel to viewers. Two performances, one tally. Private rooms can keep it judge-only.</p>
+          <button class="btn btn-g" data-go="rules">Read the rules</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="hairline">
+
+  <div class="sec" data-reveal id="safety">
+    <div class="wrap">
+      <div class="grid">
+        <div>
+          <div class="kick"><span class="dot"></span>Trust &amp; safety</div>
+          <h2 class="d metal" style="margin-top:14px">Built for adults.<br>Run responsibly.</h2>
+          <p class="note">Ghost4Ghost is a performance platform for adults already in vape trick culture. It is not an invitation, an endorsement, or a storefront.</p>
+        </div>
+        <ul>
+          <li><span class="tick">✓</span><span><b>Legal-age adults only.</b> Age-gated at the door. Anyone who appears underage is removed.</span></li>
+          <li><span class="tick">✓</span><span><b>Zero tolerance.</b> No nudity, harassment, hate, threats, or illegal content — on camera or in tags.</span></li>
+          <li><span class="tick">✓</span><span><b>You hold the controls.</b> Camera is required for duels. Report or end any duel at any time. Block anyone after a match.</span></li>
+          <li><span class="tick">✓</span><span><b>No health claims. Ever.</b> We make none, and we don't promote vaping to non-users or minors.</span></li>
+          <li><span class="tick">✓</span><span><b>Your laws apply.</b> Knowing and following the law where you live is on you.</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <hr class="hairline">
+
+  <div class="sec" data-reveal id="boardprev">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2 class="d metal">The Board</h2>
+        <button class="linkish" data-go="leaderboard">Full standings →</button>
+      </div>
+      <table class="board">
+        <thead><tr><th>#</th><th>Ghost</th><th style="text-align:right">Record</th><th style="text-align:right">Win %</th><th style="text-align:right">Streak</th><th style="text-align:right">GR</th></tr></thead>
+        <tbody>
+          <tr class="top"><td class="rk">01</td><td class="tag">HALODRIFT</td><td class="num">214–38</td><td class="num">84.9</td><td class="streak w-str">W12</td><td class="num">2841</td></tr>
+          <tr class="top"><td class="rk">02</td><td class="tag">os.ring</td><td class="num">190–51</td><td class="num">78.8</td><td class="streak w-str">W4</td><td class="num">2699</td></tr>
+          <tr class="top"><td class="rk">03</td><td class="tag">VaporVerdict</td><td class="num">166–49</td><td class="num">77.2</td><td class="streak l-str">L1</td><td class="num">2612</td></tr>
+          <tr><td class="rk">04</td><td class="tag">triple.o.trin</td><td class="num">151–58</td><td class="num">72.2</td><td class="streak w-str">W2</td><td class="num">2544</td></tr>
+          <tr><td class="rk">05</td><td class="tag">GHOSTNOTE</td><td class="num">139–62</td><td class="num">69.2</td><td class="streak w-str">W6</td><td class="num">2481</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <footer>
+    <div class="wrap">
+      <div class="cols">
+        <div>
+          <button class="brand" data-go="landing">
+            <svg class="ring-mark" viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="11" fill="none" stroke="#FF2B3D" stroke-width="4" stroke-dasharray="52 17" stroke-linecap="round" transform="rotate(-50 16 16)"/></svg>
+            <span class="word">GHOST<em>4</em>GHOST</span>
+          </button>
+          <p data-reveal class="fine">Ghost4Ghost is a live competition platform for legal-age adults already in vape trick culture. Nothing here is a health claim, a product, or an invitation to start. Follow your local laws. Report anything.</p>
+        </div>
+        <div class="flinks">
+          <button data-go="rules">House Rules</button>
+          <button data-go="privacy">Privacy</button>
+          <button data-go="leaderboard">The Board</button>
+        </div>
+      </div>
+    </div>
+  </footer>
+</section>
+
+<!-- ============ CAMERA CHECK ============ -->
+<section data-view="camcheck" id="v-camcheck" hidden>
+  <div class="screen"><div class="inner">
+    <div class="kick"><span class="dot"></span>Pre-duel · Camera check</div>
+    <h1 class="d metal" style="margin-top:12px">Ready your camera</h1>
+    <p class="lead">Duels are live, face-on performance. Preview your feed before you step in.</p>
+    <div id="ccGrid">
+      <div class="feed" id="ccFeed">
+        <div class="sil"></div>
+        <video id="ccVideo" playsinline autoplay muted hidden></video>
+        <canvas id="ccSmoke" hidden></canvas>
+        <div class="scan"></div><div class="vig"></div>
+        <span class="chip f-chip" id="ccChip"><span class="dot"></span>Camera off</span>
+        <div id="ccOverlay">
+          <p id="ccMsg">Your feed goes live only during previews and duels. Mic optional. Camera required.</p>
+          <button class="btn btn-w" id="ccEnable">Enable camera</button>
+          <button class="btn btn-g btn-sm" id="ccSim" hidden>Continue with sim feed</button>
+        </div>
+      </div>
+      <div>
+        <div class="kick">Dueling as</div>
+        <div class="tagrow"><span class="at">@</span><input id="ccTag" maxlength="18" spellcheck="false" autocomplete="off" aria-label="Your ghost tag"></div>
+        <p class="fieldnote">Your tag is your name on the board. Keep it clean — tags break House Rules too.</p>
+        <div id="ccActions">
+          <button class="btn btn-w btn-big" id="ccLock" disabled>Lock in →</button>
+          <button class="btn btn-g btn-big" id="ccBack">Back</button>
+        </div>
+        <p class="fieldnote" style="margin-top:20px" id="ccModeNote"></p>
+      </div>
+    </div>
+  </div></div>
+</section>
+
+<!-- ============ QUEUE ============ -->
+<section data-view="queue" id="v-queue" hidden>
+  <div class="screen"><div class="inner center">
+    <div class="kick" style="justify-content:center"><span class="dot"></span>Global matchmaking</div>
+    <h1 class="d metal" id="qTitle" style="margin-top:12px">Searching the queue</h1>
+    <p class="lead" id="qSub">Matching you by rating. Hold tight.</p>
+    <div id="radar" aria-hidden="true">
+      <div class="rg"></div><div class="rg"></div><div class="rg"></div>
+      <div class="core"><span id="qElapsed">0:00</span><span class="lbl">In queue</span></div>
+    </div>
+    <div id="qMeta">
+      <span class="chip"><span class="dot"></span><span id="qOnline">412</span>&nbsp;ghosts online</span>
+      <span class="chip mono" id="qRegion">Region · Global</span>
+    </div>
+    <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
+      <button class="btn btn-g" id="qCancel">Cancel search</button>
+      <button class="btn btn-g" id="qSim" hidden>Use offline demo</button>
+    </div>
+  </div></div>
+</section>
+
+<!-- ============ ROOM WAIT ============ -->
+<section data-view="roomwait" id="v-roomwait" hidden>
+  <div class="screen"><div class="inner center">
+    <div class="kick" style="justify-content:center"><span class="dot"></span>Private room · Friend code</div>
+    <h1 class="d metal" style="margin-top:12px">Your room is live</h1>
+    <p class="lead">Share the code. First ghost to enter it takes the other slot.</p>
+    <div id="codeBox">
+      <span id="rwCode" class="metal">GHST-0000</span>
+      <button class="btn btn-g" id="rwCopy">Copy code</button>
+    </div>
+    <p class="fieldnote" style="text-align:center" id="rwStatus">Waiting for an opponent to join…</p>
+    <div style="margin-top:30px">
+      <button class="btn btn-g" id="rwLeave">Close room</button>
+    </div>
+  </div></div>
+</section>
+
+<!-- ============ READY CHECK ============ -->
+<section data-view="ready" id="v-ready" hidden>
+  <div class="screen"><div class="inner">
+    <div class="center">
+      <div class="kick" style="justify-content:center"><span class="dot"></span><span id="rdKick">Match found</span></div>
+      <h1 class="d metal" style="margin-top:12px">Ready check</h1>
+      <p class="lead">Duel starts the moment both ghosts lock in.</p>
+    </div>
+    <div id="rdGrid">
+      <div class="pcard" id="rdYouCard">
+        <span class="chip"><span class="dot"></span>You</span>
+        <div class="who" id="rdYouTag">@you</div>
+        <div class="meta" id="rdYouMeta">1000 GR · 0–0</div>
+        <div class="status"><span class="chip" id="rdYouStatus"><span class="dot"></span>Not ready</span></div>
+      </div>
+      <div class="vsmark d">VS</div>
+      <div class="pcard" id="rdOppCard">
+        <span class="chip"><span class="dot"></span>Opponent</span>
+        <div class="who" id="rdOppTag">—</div>
+        <div class="meta" id="rdOppMeta">—</div>
+        <div class="status"><span class="chip" id="rdOppStatus"><span class="dot"></span>Readying…</span></div>
+      </div>
+    </div>
+    <div id="rdFail" hidden>Opponent didn't lock in — requeueing</div>
+    <div class="center" style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
+      <button class="btn btn-w btn-big" id="rdReady">Ready up</button>
+      <button class="btn btn-g btn-big" id="rdLeave">Leave</button>
+    </div>
+  </div></div>
+</section>
+
+<!-- ============ DUEL ============ -->
+<section data-view="duel" id="v-duel" hidden>
+  <div class="screen"><div class="inner">
+    <div id="dlBannerRow">
+      <div id="dlBanner" class="d">Round 1</div>
+      <span class="chip mono" id="dlPhaseChip">Best of 1 · Room vote</span>
+    </div>
+    <div id="dlTimer"><i id="dlTimerFill"></i></div>
+    <div id="dlGrid">
+      <div class="feed" id="dlFeedYou">
+        <div class="sil"></div>
+        <video id="dlVideo" playsinline autoplay muted hidden></video>
+        <canvas id="dlSmokeYou"></canvas>
+        <div class="scan"></div><div class="vig"></div>
+        <span class="chip f-chip live" id="dlChipYou"><span class="dot"></span>Live</span>
+        <div class="plate"><b id="dlYouTag">@you</b><span id="dlYouGr">1000 GR</span></div>
+        <div class="pct" id="dlPctYou" hidden>0%</div>
+      </div>
+      <div class="vsmark d">VS</div>
+      <div class="feed" id="dlFeedOpp">
+        <div class="sil"></div>
+        <video id="dlRemote" playsinline autoplay hidden></video>
+        <canvas id="dlSmokeOpp"></canvas>
+        <div class="scan"></div><div class="vig"></div>
+        <div class="connov" id="dlConn" hidden><span></span>Connecting to opponent…</div>
+        <span class="chip f-chip live" id="dlChipOpp"><span class="dot"></span>Live</span>
+        <span class="f-sim" id="dlSimChip">SIM</span>
+        <div class="plate"><b id="dlOppTag">—</b><span id="dlOppGr">— GR</span></div>
+        <div class="pct" id="dlPctOpp" hidden>0%</div>
+      </div>
+    </div>
+
+    <div id="dlTally" hidden>
+      <div class="tally-top"><span>Votes · <b id="dlVotesYou">0</b> you</span><span class="mono" id="dlVoteLeft">0:09</span><span><b id="dlVotesOpp">0</b> them</span></div>
+      <div class="tally-bar"><div class="you" id="dlBarYou"></div><div class="opp"></div></div>
+      <div class="tally-sub"><span id="dlTallyYouTag">@you</span><span>Duelists can't vote — the room decides</span><span id="dlTallyOppTag">—</span></div>
+    </div>
+
+    <div id="dlControls">
+      <button class="btn btn-w" id="dlDone" hidden>Done — end my turn</button>
+      <button class="btn btn-w" id="dlVoteThem" hidden>They took it</button>
+      <button class="btn btn-g" id="dlVoteMe" hidden>I took it</button>
+      <button class="btn btn-g btn-sm" id="dlMute" hidden>Mute mic</button>
+      <span class="chip mono" id="dlHint" hidden>Hold the frame — voting is open</span>
+    </div>
+
+    <div id="dlResult" hidden>
+      <div class="kick" style="justify-content:center"><span class="dot"></span><span id="dlResKick">Verdict</span></div>
+      <h2 class="d metal" id="dlResTitle" style="margin-top:10px">—</h2>
+      <div id="dlResSplit">
+        <div class="tally-bar"><div class="you" id="dlResBarYou"></div><div class="opp"></div></div>
+        <div class="tally-sub"><span id="dlResYouPct">—</span><span id="dlResCount">— votes</span><span id="dlResOppPct">—</span></div>
+      </div>
+      <div id="dlResDelta">—</div>
+      <div id="dlResBtns">
+        <button class="btn btn-w btn-big" id="dlRematch">Run it back</button>
+        <button class="btn btn-g btn-big" id="dlNew">Find new duel</button>
+        <button class="btn btn-g btn-big" id="dlLeave">Leave room</button>
+      </div>
+      <div id="dlResLinks">
+        <button class="linkish" id="dlRepLink">⚑ Report opponent</button>
+        <button class="linkish" id="dlBlockLink">Block opponent</button>
+      </div>
+      <div id="dlResStatus"></div>
+    </div>
+  </div></div>
+</section>
+
+<!-- ============ LEADERBOARD PAGE ============ -->
+<section data-view="leaderboard" id="v-leaderboard" hidden>
+  <div class="page"><div class="wrap">
+    <div class="kick"><span class="dot"></span>Season 0 · Preseason</div>
+    <h1 class="d metal">The Board</h1>
+    <div id="lbYou">
+      <div>
+        <div class="kick">Your ghost</div>
+        <div class="who" id="lbTag">@you</div>
+      </div>
+      <div class="stat">Rating<br><b id="lbGr">1000 GR</b></div>
+      <div class="stat">Record<br><b id="lbRec">0–0</b></div>
+      <div class="stat">Streak<br><b id="lbStreak">—</b></div>
+      <div class="stat">Rank<br><b id="lbRank">Unranked</b></div>
+    </div>
+    <table class="board">
+      <thead><tr><th>#</th><th>Ghost</th><th style="text-align:right">Record</th><th style="text-align:right">Win %</th><th style="text-align:right">Streak</th><th style="text-align:right">GR</th></tr></thead>
+      <tbody>
+        <tr class="top"><td class="rk">01</td><td class="tag">HALODRIFT</td><td class="num">214–38</td><td class="num">84.9</td><td class="streak w-str">W12</td><td class="num">2841</td></tr>
+        <tr class="top"><td class="rk">02</td><td class="tag">os.ring</td><td class="num">190–51</td><td class="num">78.8</td><td class="streak w-str">W4</td><td class="num">2699</td></tr>
+        <tr class="top"><td class="rk">03</td><td class="tag">VaporVerdict</td><td class="num">166–49</td><td class="num">77.2</td><td class="streak l-str">L1</td><td class="num">2612</td></tr>
+        <tr><td class="rk">04</td><td class="tag">triple.o.trin</td><td class="num">151–58</td><td class="num">72.2</td><td class="streak w-str">W2</td><td class="num">2544</td></tr>
+        <tr><td class="rk">05</td><td class="tag">GHOSTNOTE</td><td class="num">139–62</td><td class="num">69.2</td><td class="streak w-str">W6</td><td class="num">2481</td></tr>
+        <tr><td class="rk">06</td><td class="tag">benditlikebands</td><td class="num">128–66</td><td class="num">66.0</td><td class="streak l-str">L2</td><td class="num">2390</td></tr>
+        <tr><td class="rk">07</td><td class="tag">frenchxhale.fx</td><td class="num">120–71</td><td class="num">62.8</td><td class="streak w-str">W1</td><td class="num">2344</td></tr>
+        <tr><td class="rk">08</td><td class="tag">jelly.motion</td><td class="num">117–74</td><td class="num">61.3</td><td class="streak w-str">W3</td><td class="num">2298</td></tr>
+        <tr><td class="rk">09</td><td class="tag">MISTRIAL</td><td class="num">109–80</td><td class="num">57.7</td><td class="streak l-str">L1</td><td class="num">2257</td></tr>
+        <tr><td class="rk">10</td><td class="tag">ringk1ng</td><td class="num">104–83</td><td class="num">55.6</td><td class="streak w-str">W2</td><td class="num">2210</td></tr>
+      </tbody>
+    </table>
+    <p class="fieldnote" style="margin-top:18px">Preseason ratings shown are demo data. Your ghost enters the standings after five ranked duels.</p>
+    <div class="backrow"><button class="btn btn-g" data-go="landing">← Back to Ghost4Ghost</button></div>
+  </div></div>
+</section>
+
+<!-- ============ RULES PAGE ============ -->
+<section data-view="rules" id="v-rules" hidden>
+  <div class="page"><div class="wrap">
+    <div class="kick"><span class="dot"></span>Read before you queue</div>
+    <h1 class="d metal">House Rules</h1>
+    <ol class="rulelist">
+      <li><div><h3>Legal age only</h3><p>You must be of legal age to purchase vapor products in your jurisdiction. No exceptions, no appeals. Anyone who appears underage is removed and the account is banned.</p></div></li>
+      <li><div><h3>Your laws apply</h3><p>What's legal where you live is yours to know and follow. Ghost4Ghost doesn't override local law anywhere, ever.</p></div></li>
+      <li><div><h3>Camera required</h3><p>Duels are live, face-on performance. No camera, no duel. Your feed is live only during previews and rounds.</p></div></li>
+      <li><div><h3>Keep it clean</h3><p>No nudity, sexual content, harassment, hate, threats, or illegal activity — on camera, in tags, anywhere. Zero tolerance means instant ban.</p></div></li>
+      <li><div><h3>Respect the duel</h3><p>Ready up on time, run your trick, take the verdict. Rage-quitting mid-round counts as a forfeit.</p></div></li>
+      <li><div><h3>Report anything</h3><p>Report and End Duel controls stay on screen through every live session. Every report gets human review.</p></div></li>
+      <li><div><h3>Know your limits</h3><p>Tricks are performance, not endurance contests. Take breaks. We make no health or safety claims about vaping — ever.</p></div></li>
+      <li><div><h3>One ghost per person</h3><p>No second accounts, vote-rigging, or ban evasion. The board only means something if it's honest.</p></div></li>
+      <li><div><h3>This isn't an invitation</h3><p>Ghost4Ghost exists for adults already in trick culture. We don't promote vaping to non-users or minors — and neither should you.</p></div></li>
+    </ol>
+    <div class="backrow"><button class="btn btn-g" data-go="landing">← Back to Ghost4Ghost</button></div>
+  </div></div>
+</section>
+
+<!-- ============ PRIVACY PAGE ============ -->
+<section data-view="privacy" id="v-privacy" hidden>
+  <div class="page"><div class="wrap">
+    <div class="kick"><span class="dot"></span>Plain-language policy</div>
+    <h1 class="d metal">Privacy</h1>
+    <div class="privblock"><h3>What we access</h3><p>Your camera (and mic, if you allow it) — only during previews and live duels. A visible indicator is on whenever your feed is live. Streams travel peer-to-peer where possible and are not recorded by default.</p></div>
+    <div class="privblock"><h3>What we store</h3><p>Your tag, duel results, rating, votes you cast, reports you file, your block list, and the timestamp of your age attestation. That's the list.</p></div>
+    <div class="privblock"><h3>What we don't do</h3><p>We don't sell personal data, run ads against your camera feed, or keep duel video after a session ends — except a short clip held for review when a duel is reported.</p></div>
+    <div class="privblock"><h3>Reports and moderation</h3><p>Reporting a duel may capture a brief evidence snapshot so a human can review it. Confirmed violations end in bans; false reporting is itself a violation.</p></div>
+    <div class="privblock"><h3>Blocking</h3><p>Blocked ghosts can't match with you, join your rooms, or watch your duels. Blocks are silent and permanent unless you undo them.</p></div>
+    <div class="privblock"><h3>Age</h3><p>Entry requires a legal-age attestation, and stronger age verification can be required at the account level. Suspected underage accounts are removed.</p></div>
+    <div class="privblock"><h3>This demo build</h3><p>In this preview, opponents, viewers, and votes are simulated locally in your browser. Nothing you do here leaves your device, and nothing is stored after you close the tab.</p></div>
+    <div class="backrow"><button class="btn btn-g" data-go="landing">← Back to Ghost4Ghost</button></div>
+  </div></div>
+</section>
+</main>
+
+<!-- ============ COUNTDOWN OVERLAY ============ -->
+<div id="cdOverlay" hidden aria-hidden="true">
+  <div id="cdRingWrap">
+    <svg viewBox="0 0 230 230" width="230" height="230">
+      <circle id="cdTrack" cx="115" cy="115" r="104"></circle>
+      <circle id="cdArc" cx="115" cy="115" r="104" stroke-dasharray="653.45" stroke-dashoffset="0"></circle>
+    </svg>
+    <span id="cdNum" class="d">3</span>
+  </div>
+  <span id="cdLabel">One breath to prove it</span>
+</div>
+
+<!-- ============ MODALS ============ -->
+<div class="modal-back" id="mJoin" hidden>
+  <div class="modal" role="dialog" aria-modal="true" aria-label="Join with code">
+    <h2>Join with code</h2>
+    <p class="mlead">Enter the room code your opponent shared.</p>
+    <input class="codeinput" id="mjInput" placeholder="GHST-XXXX" maxlength="9" spellcheck="false" autocomplete="off">
+    <p class="fieldnote" style="margin-top:10px">Any code works in this demo build.</p>
+    <div class="mrow">
+      <button class="btn btn-g" id="mjCancel">Cancel</button>
+      <button class="btn btn-w" id="mjGo">Join room →</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-back" id="mReport" hidden>
+  <div class="modal" role="dialog" aria-modal="true" aria-label="Report">
+    <h2>Report <span id="mrWho">@—</span></h2>
+    <p class="mlead">Every report gets human review. Pick what happened.</p>
+    <div class="rlist" id="mrList">
+      <label><input type="radio" name="rr" value="underage"> Appears underage</label>
+      <label><input type="radio" name="rr" value="nudity"> Nudity or sexual content</label>
+      <label><input type="radio" name="rr" value="harassment"> Harassment or hate</label>
+      <label><input type="radio" name="rr" value="threats"> Threats or violence</label>
+      <label><input type="radio" name="rr" value="illegal"> Illegal activity</label>
+      <label><input type="radio" name="rr" value="spam"> Spam or off-topic</label>
+    </div>
+    <textarea id="mrText" placeholder="Anything reviewers should know (optional)"></textarea>
+    <div class="blockrow"><input type="checkbox" id="mrBlock"><label for="mrBlock">Also block this ghost</label></div>
+    <div class="mrow">
+      <button class="btn btn-g" id="mrCancel">Cancel</button>
+      <button class="btn btn-rg" id="mrSendEnd" hidden>Send &amp; end duel</button>
+      <button class="btn btn-r" id="mrSend">Send report</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-back" id="mEnd" hidden>
+  <div class="modal" role="dialog" aria-modal="true" aria-label="End duel">
+    <h2>End this duel?</h2>
+    <p class="mlead" id="meNote">A live round counts as a forfeit if you leave now.</p>
+    <div class="mrow">
+      <button class="btn btn-g" id="meCancel">Stay in</button>
+      <button class="btn btn-r" id="meConfirm">End duel</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============ TOAST / DEMO CHIP ============ -->
+<div id="toastRoot" aria-live="polite"></div>
+<div id="demoChip">Demo build · Opponents &amp; votes simulated<button id="demoChipX" aria-label="Dismiss">×</button></div>
+<script>
+/* =========================================================
+   GHOST4GHOST — Phase 2 client
+   Real 1v1 over WebRTC via the signaling server.
+   Falls back to the offline sim when no server is set.
+========================================================= */
+"use strict";
+
+/* ════════════ CONFIGURE ME ════════════
+   After deploying the server/ folder to Render, paste its
+   URL here with wss:// (https → wss):
+     const SIGNAL_URL_DEFAULT = "wss://ghost4ghost-signal.onrender.com";
+   Or test without editing by opening the site with
+     ?ws=wss://your-app.onrender.com
+   Leave empty ("") for the offline demo.            */
+const SIGNAL_URL_DEFAULT = "wss://ghost4ghost-signal.onrender.com";
+
+const ICE_SERVERS = [
+  { urls: ["stun:stun.l.google.com:19302", "stun:stun1.l.google.com:19302"] },
+  /* Free community TURN relay for strict networks. Swap for your own
+     (Cloudflare Calls / Metered account) before real launch: */
+  { urls: ["turn:openrelay.metered.ca:80", "turn:openrelay.metered.ca:443"], username: "openrelayproject", credential: "openrelayproject" },
+];
+
+const SIGNAL_URL = new URLSearchParams(location.search).get("ws") || SIGNAL_URL_DEFAULT;
+
+/* ---------- helpers ---------- */
+const $ = (id) => document.getElementById(id);
+const rnd = (a, b) => a + Math.random() * (b - a);
+const ri = (a, b) => Math.round(rnd(a, b));
+const pick = (arr) => arr[Math.floor(Math.random() * arr.length)];
+const PRM = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+const cleanTag = (t) => String(t || "").replace(/[^a-zA-Z0-9._-]/g, "").slice(0, 18) || "ghost";
+
+let _timers = [];
+function after(fn, ms) { const id = setTimeout(fn, ms); _timers.push({ t: "t", id }); return id; }
+function every(fn, ms) { const id = setInterval(fn, ms); _timers.push({ t: "i", id }); return id; }
+function killTimers() {
+  _timers.forEach(x => x.t === "t" ? clearTimeout(x.id) : clearInterval(x.id));
+  _timers = [];
+}
+
+function toast(msg, ms = 3200) {
+  const el = document.createElement("div");
+  el.className = "toast";
+  el.textContent = msg;
+  $("toastRoot").appendChild(el);
+  setTimeout(() => { el.style.opacity = "0"; el.style.transition = "opacity .3s"; }, ms - 300);
+  setTimeout(() => el.remove(), ms);
+}
+
+/* ---------- state ---------- */
+const S = {
+  verified: false,
+  tag: pick(["night.rings", "slow.exhale", "o.stackr", "first.breath", "vapor.rook"]),
+  gr: 1000, w: 0, l: 0, streak: 0,
+  mode: null,          // 'global' | 'host' | 'join'
+  code: null,
+  opp: null,
+  cam: "none",         // 'none' | 'real' | 'sim'
+  camFailed: false,
+  stream: null,
+  hasMic: false,
+  muted: false,
+  inDuel: false,
+  duel: null,
+  role: null,          // 'a' | 'b' (net)
+  firstTurn: null,
+  netFlow: false,      // this session runs through the server
+  netDuel: false,      // current duel is a real peer duel
+  rematchPending: false,
+  blocked: false,
+  demoChipHidden: false,
+};
+
+const OPP_TAGS = ["HALODRIFT", "os.ring", "VaporVerdict", "triple.o.trin", "GHOSTNOTE", "benditlikebands", "frenchxhale.fx", "jelly.motion", "MISTRIAL", "ringk1ng", "hollow.pt", "BANEFRAME", "driftnote", "split.second"];
+const OPP_SIGS = ["Triple O split", "Jelly push", "Ghost inhale snap", "Bane rings", "French drift", "Tornado pull", "O-stack ladder", "Vortex bend", "Double lasso", "Shark bend"];
+
+function newOpp(noReadyChance) {
+  return {
+    tag: pick(OPP_TAGS),
+    gr: Math.max(650, S.gr + ri(-140, 140)),
+    rec: ri(4, 60) + "\u2013" + ri(4, 60),
+    sig: pick(OPP_SIGS),
+    noReady: Math.random() < (noReadyChance || 0),
+  };
+}
+
+/* ---------- smoke engine ---------- */
+const SMOKES = {};
+function makeSmoke(canvasId) {
+  const c = $(canvasId);
+  SMOKES[canvasId] = { c, ctx: c.getContext("2d"), parts: [], intensity: 0.35, active: false, w: 0, h: 0 };
+}
+function sizeSmoke(s) {
+  const r = s.c.getBoundingClientRect();
+  if (r.width === 0) return;
+  s.c.width = Math.round(r.width);
+  s.c.height = Math.round(r.height);
+  s.w = s.c.width;
+  s.h = s.c.height;
+}
+function spawn(s) {
+  const cap = (PRM ? 16 : 54) * s.intensity;
+  if (s.parts.length >= cap) return;
+  s.parts.push({
+    x: s.w * rnd(0.3, 0.7), y: s.h * rnd(0.62, 0.95),
+    r: rnd(7, 15), vy: -rnd(0.18, 0.55) * (PRM ? 0.4 : 1),
+    drift: rnd(0, Math.PI * 2), ds: rnd(0.004, 0.012),
+    life: 0, max: rnd(190, 330),
+  });
+}
+function stepSmoke(s) {
+  if (!s.active || s.w === 0 || !s.ctx) return;
+  const g = s.ctx;
+  g.clearRect(0, 0, s.w, s.h);
+  spawn(s); spawn(s);
+  g.globalCompositeOperation = "lighter";
+  s.parts = s.parts.filter(p => {
+    p.life++;
+    p.y += p.vy * (0.6 + s.intensity);
+    p.drift += p.ds;
+    p.x += Math.sin(p.drift) * 0.35;
+    p.r += 0.06 + 0.05 * s.intensity;
+    const t = p.life / p.max;
+    const a = Math.sin(Math.min(1, t) * Math.PI) * 0.13 * (0.6 + s.intensity * 0.7);
+    if (t >= 1 || a <= 0.002) return false;
+    const gr2 = g.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.r);
+    gr2.addColorStop(0, "rgba(205,208,218," + a.toFixed(3) + ")");
+    gr2.addColorStop(1, "rgba(205,208,218,0)");
+    g.fillStyle = gr2;
+    g.beginPath(); g.arc(p.x, p.y, p.r, 0, Math.PI * 2); g.fill();
+    return true;
+  });
+  g.globalCompositeOperation = "source-over";
+}
+function smokeLoop() {
+  for (const k in SMOKES) stepSmoke(SMOKES[k]);
+  requestAnimationFrame(smokeLoop);
+}
+function setSmoke(id, active, intensity) {
+  const s = SMOKES[id];
+  if (!s) return;
+  s.active = active;
+  if (intensity != null) s.intensity = intensity;
+  if (active) { sizeSmoke(s); if (s.parts.length === 0) { for (let i = 0; i < 10; i++) spawn(s); } }
+  else { s.parts = []; if (s.w && s.ctx) s.ctx.clearRect(0, 0, s.w, s.h); }
+}
+["hdA", "hdB", "ccSmoke", "dlSmokeYou", "dlSmokeOpp"].forEach(makeSmoke);
+window.addEventListener("resize", () => { for (const k in SMOKES) if (SMOKES[k].active) sizeSmoke(SMOKES[k]); });
+requestAnimationFrame(smokeLoop);
+
+/* ---------- view router ---------- */
+const VIEWS = ["landing", "camcheck", "queue", "roomwait", "ready", "duel", "leaderboard", "rules", "privacy"];
+const SITE_VIEWS = new Set(["landing", "leaderboard", "rules", "privacy"]);
+
+function show(view) {
+  killTimers();
+  VIEWS.forEach(v => { $("v-" + v).hidden = v !== view; });
+  document.body.dataset.view = view;
+  const site = SITE_VIEWS.has(view);
+  $("siteNav").hidden = !site;
+  $("appBar").hidden = site;
+  window.scrollTo(0, 0);
+  setSmoke("hdA", view === "landing", 0.5);
+  setSmoke("hdB", view === "landing", 0.5);
+  if (view === "landing") startHeroDemo(); else stopHeroDemo();
+  if (view !== "camcheck") setSmoke("ccSmoke", false);
+  if (view !== "duel") { setSmoke("dlSmokeYou", false); setSmoke("dlSmokeOpp", false); }
+  if (view === "leaderboard") refreshBoardYou();
+  if (!site) setState(view.toUpperCase());
+}
+function setState(label) { $("abState").innerHTML = "STATE: <b>" + label + "</b>"; }
+function setRoomChip(code) {
+  const el = $("abRoom");
+  if (code) { el.hidden = false; el.textContent = "ROOM " + code; }
+  else { el.hidden = true; }
+}
+
+/* ---------- age gate ---------- */
+$("gateEnter").addEventListener("click", () => {
+  S.verified = true;
+  const g = $("gate");
+  g.style.transition = "opacity .45s";
+  g.style.opacity = "0";
+  setTimeout(() => { g.hidden = true; }, 460);
+  toast("Welcome in. Read the House Rules before you queue.");
+});
+$("gateExit").addEventListener("click", () => { $("gateMain").hidden = true; $("gateDeny").hidden = false; });
+$("gateBack").addEventListener("click", () => { $("gateDeny").hidden = true; $("gateMain").hidden = false; });
+
+/* ---------- ticker ---------- */
+(function buildTicker() {
+  const items = [
+    '<span class="r">\u25CF</span> LIVE \u2014 <b>HALODRIFT</b> vs <b>jelly.motion</b> \u00B7 round 1',
+    'VOTING \u2014 <b>os.ring</b> vs <b>MISTRIAL</b> \u00B7 <b>62/38</b>',
+    'RESULT \u2014 <b>VaporVerdict</b> takes it <b>71/29</b>',
+    'QUEUE \u2014 <b>412</b> ghosts online',
+    '<span class="r">\u25CF</span> LIVE \u2014 <b>triple.o.trin</b> vs <b>BANEFRAME</b> \u00B7 voting soon',
+    'RESULT \u2014 <b>GHOSTNOTE</b> runs it back \u00B7 <b>W6</b>',
+    'LEGAL-AGE ADULTS ONLY \u00B7 CAMERA REQUIRED \u00B7 REPORT ANYTHING',
+  ];
+  const html = items.map(i => "<span>" + i + "</span>").join("");
+  $("tkTrack").innerHTML = html + html;
+})();
+
+/* ---------- hero demo loop ---------- */
+let heroTimer = null, heroStep = 0;
+const HERO_STEPS = [
+  { t: "HALODRIFT'S TURN", r: "ROUND 1", a: true, b: false, bar: -1 },
+  { t: "JELLY.MOTION'S TURN", r: "ROUND 1", a: false, b: true, bar: -1 },
+  { t: "VOTING OPEN", r: "THE ROOM DECIDES", a: false, b: false, bar: 58 },
+  { t: "HALODRIFT TAKES IT", r: "58 / 42", a: true, b: false, bar: 58, win: true },
+];
+function heroTick() {
+  const st = HERO_STEPS[heroStep % HERO_STEPS.length];
+  $("hdBanText").textContent = st.t;
+  $("hdBanText").className = st.win ? "win" : "";
+  $("hdBanRight").textContent = st.r;
+  $("hdFeedA").classList.toggle("active", st.a);
+  $("hdFeedB").classList.toggle("active", st.b);
+  $("hdBarFill").style.width = (st.bar === -1 ? ri(30, 90) : st.bar) + "%";
+  SMOKES["hdA"].intensity = st.a ? 1 : 0.4;
+  SMOKES["hdB"].intensity = st.b ? 1 : 0.4;
+  heroStep++;
+}
+function startHeroDemo() { if (heroTimer) return; heroTick(); heroTimer = setInterval(heroTick, 2600); }
+function stopHeroDemo() { if (heroTimer) { clearInterval(heroTimer); heroTimer = null; } }
+
+/* ---------- network layer ---------- */
+const NET = { ws: null, status: "idle", online: 0, wants: null, wakeTimer: null };
+function netAvailable() { return !!SIGNAL_URL; }
+function netOnline() { return NET.status === "online"; }
+function netSend(type, data) {
+  if (NET.ws && NET.ws.readyState === 1) {
+    try { NET.ws.send(JSON.stringify(Object.assign({ type }, data || {}))); } catch (e) {}
+  }
+}
+function netUI() {
+  const l = $("landNet"), a = $("abNet"), chip = $("demoChip");
+  if (!netAvailable()) {
+    l.className = "chip";
+    l.innerHTML = '<span class="dot"></span>Offline demo \u2014 no server configured';
+    a.className = "chip mono"; a.textContent = "OFFLINE DEMO"; a.hidden = false;
+    if (chip && !S.demoChipHidden) chip.style.display = "flex";
+  } else if (NET.status === "online") {
+    l.className = "chip on";
+    l.innerHTML = '<span class="dot"></span>Server online \u00B7 ' + NET.online + ' ghost' + (NET.online === 1 ? "" : "s") + ' on';
+    a.className = "chip mono on"; a.textContent = "ONLINE"; a.hidden = false;
+    if (chip) chip.style.display = "none";
+  } else if (NET.status === "connecting") {
+    l.className = "chip";
+    l.innerHTML = '<span class="dot"></span>Waking server\u2026';
+    a.className = "chip mono"; a.textContent = "CONNECTING"; a.hidden = false;
+  } else {
+    l.className = "chip";
+    l.innerHTML = '<span class="dot"></span>Server unreachable \u2014 offline demo';
+    a.className = "chip mono"; a.textContent = "OFFLINE"; a.hidden = false;
+    if (chip && !S.demoChipHidden) chip.style.display = "flex";
+  }
+}
+function netConnect() {
+  if (!netAvailable() || NET.status === "connecting" || NET.status === "online") { netUI(); return; }
+  NET.status = "connecting";
+  netUI();
+  let ws;
+  try { ws = new WebSocket(SIGNAL_URL); } catch (e) { NET.status = "offline"; netUI(); netFailedPending(); return; }
+  NET.ws = ws;
+  let settled = false;
+  NET.wakeTimer = setTimeout(() => { if (!settled) { try { ws.close(); } catch (e) {} } }, 50000);
+  ws.onopen = () => { netSend("hello", { tag: S.tag, gr: S.gr }); };
+  ws.onmessage = (ev) => {
+    let m; try { m = JSON.parse(ev.data); } catch (e) { return; }
+    if (!m || !m.type) return;
+    if (m.type === "hello_ok") {
+      settled = true;
+      clearTimeout(NET.wakeTimer);
+      NET.status = "online";
+      NET.online = m.online || 1;
+      netUI();
+      flushWants();
+    } else {
+      netHandle(m);
+    }
+  };
+  const drop = () => {
+    if (NET.ws !== ws) return;
+    clearTimeout(NET.wakeTimer);
+    const wasOnline = NET.status === "online";
+    NET.ws = null;
+    NET.status = "offline";
+    netUI();
+    if (wasOnline) netDropped();
+    else if (!settled) netFailedPending();
+  };
+  ws.onclose = drop;
+  ws.onerror = () => {};
+}
+function flushWants() {
+  const w = NET.wants;
+  if (!w) return;
+  NET.wants = null;
+  netSend("hello", { tag: S.tag, gr: S.gr });
+  if (w.action === "queue") {
+    netSend("queue_join");
+    if (document.body.dataset.view === "queue") {
+      $("qTitle").textContent = "Searching the queue";
+      $("qSub").textContent = "Live queue \u2014 first ghost in gets you.";
+      $("qSim").hidden = true;
+    }
+  } else if (w.action === "host") {
+    netSend("room_create");
+  } else if (w.action === "join") {
+    netSend("room_join", { code: w.code });
+  }
+}
+function netFailedPending() {
+  if (!NET.wants) return;
+  NET.wants = null;
+  toast("Server unreachable \u2014 offline demo available");
+  if (document.body.dataset.view === "queue") {
+    $("qTitle").textContent = "Server unreachable";
+    $("qSub").textContent = "Couldn\u2019t reach the arena. Run the offline demo or try again.";
+    $("qSim").hidden = false;
+  } else if (document.body.dataset.view === "roomwait") {
+    leaveEverything();
+  }
+}
+function netDropped() {
+  teardownPeer();
+  if (S.netFlow) {
+    S.netFlow = false;
+    S.netDuel = false;
+    if (!SITE_VIEWS.has(document.body.dataset.view)) {
+      toast("Connection to the arena dropped");
+      leaveEverything();
+    }
+  }
+  after(() => netConnect(), 2500);
+}
+
+/* ---------- WebRTC peer ---------- */
+let PC = null, remoteStream = null, pendingIce = [];
+function rtcSupported() { return typeof RTCPeerConnection !== "undefined"; }
+function setupPeer() {
+  teardownPeer();
+  if (!rtcSupported()) return;
+  try { PC = new RTCPeerConnection({ iceServers: ICE_SERVERS }); } catch (e) { PC = null; return; }
+  const pc = PC;
+  if (S.stream && S.cam === "real") {
+    try { S.stream.getTracks().forEach(t => pc.addTrack(t, S.stream)); } catch (e) {}
+  }
+  pc.ontrack = (e) => {
+    remoteStream = (e.streams && e.streams[0]) ? e.streams[0] : new MediaStream([e.track]);
+    attachRemote();
+  };
+  pc.onicecandidate = (e) => { if (e.candidate) netSend("signal", { data: { ice: e.candidate } }); };
+  pc.onconnectionstatechange = () => {
+    if (PC !== pc) return;
+    if (pc.connectionState === "connected") { $("dlConn").hidden = true; }
+    if (pc.connectionState === "failed") { setConnOverlay("Peer link failed \u2014 no video this duel"); }
+  };
+  if (S.role === "a") negotiate();
+}
+async function negotiate() {
+  const pc = PC;
+  if (!pc) return;
+  try {
+    const offer = await pc.createOffer();
+    await pc.setLocalDescription(offer);
+    netSend("signal", { data: { sdp: pc.localDescription || offer } });
+  } catch (e) {}
+}
+async function onSignal(data) {
+  const pc = PC;
+  if (!pc || !data) return;
+  try {
+    if (data.sdp) {
+      await pc.setRemoteDescription(data.sdp);
+      pendingIce.splice(0).forEach(cand => { pc.addIceCandidate(cand).catch(() => {}); });
+      if (data.sdp.type === "offer") {
+        const ans = await pc.createAnswer();
+        await pc.setLocalDescription(ans);
+        netSend("signal", { data: { sdp: pc.localDescription || ans } });
+      }
+    } else if (data.ice) {
+      if (pc.remoteDescription) await pc.addIceCandidate(data.ice);
+      else pendingIce.push(data.ice);
+    }
+  } catch (e) {}
+}
+function attachRemote() {
+  const v = $("dlRemote");
+  if (!remoteStream || !v) return;
+  v.srcObject = remoteStream;
+  v.hidden = false;
+  if (v.play) { try { const p = v.play(); if (p && p.catch) p.catch(() => {}); } catch (e) {} }
+  setSmoke("dlSmokeOpp", false);
+  $("dlSimChip").hidden = true;
+  $("dlConn").hidden = true;
+}
+function teardownPeer() {
+  if (PC) { try { PC.close(); } catch (e) {} }
+  PC = null;
+  remoteStream = null;
+  pendingIce = [];
+  const v = $("dlRemote");
+  if (v) { v.srcObject = null; v.hidden = true; }
+}
+function setConnOverlay(text) {
+  const el = $("dlConn");
+  el.innerHTML = "<span></span>" + text;
+  el.hidden = false;
+}
+
+/* ---------- nav wiring ---------- */
+document.querySelectorAll("[data-go]").forEach(b => b.addEventListener("click", () => show(b.dataset.go)));
+document.querySelectorAll("[data-go-safe]").forEach(b => b.addEventListener("click", () => {
+  if (duelIsLive()) { openEndModal(); return; }
+  leaveEverything();
+}));
+document.querySelectorAll("[data-start]").forEach(b => b.addEventListener("click", () => startFlow(b.dataset.start)));
+document.querySelectorAll("[data-anchor]").forEach(a => a.addEventListener("click", (e) => {
+  if (document.body.dataset.view !== "landing") {
+    e.preventDefault();
+    show("landing");
+    const target = document.querySelector(a.getAttribute("href"));
+    if (target) setTimeout(() => target.scrollIntoView({ behavior: "smooth" }), 80);
+  }
+}));
+$("btnFind").addEventListener("click", () => startFlow("global"));
+$("navFind").addEventListener("click", () => startFlow("global"));
+$("btnCreate").addEventListener("click", () => startFlow("host"));
+$("btnJoin").addEventListener("click", openJoin);
+$("abLeave").addEventListener("click", () => { leaveEverything(); });
+
+/* ---------- flow entry ---------- */
+function startFlow(mode) {
+  S.mode = mode;
+  if (mode === "host") S.code = netAvailable() ? null : genCode();
+  if (mode === "global") S.code = null;
+  show("camcheck");
+  initCamCheck();
+}
+function genCode() {
+  const A = "ABCDEFGHJKMNPQRSTUVWXYZ23456789";
+  let s = "";
+  for (let i = 0; i < 4; i++) s += A[Math.floor(Math.random() * A.length)];
+  return "GHST-" + s;
+}
+
+/* ---------- join modal ---------- */
+function openJoin() {
+  $("mJoin").hidden = false;
+  $("mjInput").value = "";
+  setTimeout(() => $("mjInput").focus(), 40);
+}
+$("mjCancel").addEventListener("click", () => { $("mJoin").hidden = true; });
+$("mjGo").addEventListener("click", submitJoin);
+$("mjInput").addEventListener("keydown", e => { if (e.key === "Enter") submitJoin(); });
+function submitJoin() {
+  const v = $("mjInput").value.trim().toUpperCase().replace(/[^A-Z0-9-]/g, "");
+  if (v.replace(/[^A-Z0-9]/g, "").length < 4) { toast("Enter the room code first"); return; }
+  S.code = v.startsWith("GHST-") ? v : "GHST-" + v.replace(/[^A-Z0-9]/g, "").slice(-4);
+  $("mJoin").hidden = true;
+  startFlow("join");
+}
+
+/* ---------- camera check ---------- */
+function initCamCheck() {
+  $("ccTag").value = S.tag;
+  $("ccLock").disabled = S.cam === "none";
+  $("ccChip").innerHTML = '<span class="dot"></span>' + (S.cam === "real" ? (S.hasMic ? "Camera + mic live" : "Camera live") : S.cam === "sim" ? "Sim feed" : "Camera off");
+  $("ccChip").classList.toggle("live", S.cam !== "none");
+  $("ccOverlay").style.display = S.cam === "none" ? "flex" : "none";
+  $("ccSim").hidden = !(S.cam === "none" && S.camFailed);
+  $("ccMsg").textContent = (S.cam === "none" && S.camFailed)
+    ? "Camera is blocked or unavailable in this environment. On the real build the camera is required \u2014 for now, continue with a simulated feed."
+    : "Your feed goes live only during previews and duels. Mic optional. Camera required.";
+  $("ccVideo").hidden = S.cam !== "real";
+  $("ccSmoke").hidden = S.cam !== "sim";
+  if (S.cam === "sim") setSmoke("ccSmoke", true, 0.6);
+  if (S.cam === "real" && S.stream) $("ccVideo").srcObject = S.stream;
+  const live = netAvailable() ? " Live server duel." : " Offline demo.";
+  const notes = {
+    global: "Locking in drops you into the global queue." + live,
+    host: "Locking in opens your private room with a shareable code." + live,
+    join: "Locking in joins room " + (S.code || "") + "." + live,
+  };
+  $("ccModeNote").textContent = notes[S.mode] || "";
+  setState("CAM-CHECK");
+  setRoomChip(S.mode === "join" ? S.code : null);
+}
+$("ccEnable").addEventListener("click", async () => {
+  $("ccMsg").textContent = "Requesting camera\u2026";
+  try {
+    let stream;
+    try { stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true }); }
+    catch (inner) { stream = await navigator.mediaDevices.getUserMedia({ video: true }); }
+    S.stream = stream;
+    S.cam = "real";
+    S.hasMic = stream.getAudioTracks().length > 0;
+    S.muted = false;
+    $("ccVideo").srcObject = stream;
+    toast(S.hasMic ? "Camera + mic live. Looking sharp." : "Camera live (no mic). Looking sharp.");
+    initCamCheck();
+  } catch (err) {
+    S.cam = "none";
+    S.camFailed = true;
+    initCamCheck();
+  }
+});
+$("ccSim").addEventListener("click", () => { S.cam = "sim"; initCamCheck(); toast(netAvailable() ? "Sim feed on \u2014 opponent won\u2019t see video" : "Sim feed on \u2014 demo only"); });
+$("ccTag").addEventListener("input", () => {
+  S.tag = $("ccTag").value.replace(/[^a-zA-Z0-9._-]/g, "").slice(0, 18) || "you";
+  $("ccTag").value = S.tag;
+});
+$("ccBack").addEventListener("click", () => { leaveEverything(); });
+$("ccLock").addEventListener("click", () => {
+  if (S.cam === "none") return;
+  if (netAvailable()) {
+    S.netFlow = true;
+    if (S.mode === "global") netEnterQueue();
+    else if (S.mode === "host") netEnterRoomWait();
+    else netJoinRoom(S.code);
+  } else {
+    S.netFlow = false;
+    if (S.mode === "global") simEnterQueue();
+    else if (S.mode === "host") simEnterRoomWait();
+    else enterReadySim(newOpp(0), "Joined " + S.code);
+  }
+});
+
+/* =========================================================
+   PART B — server-driven flows + WebRTC wiring + sim driver
+========================================================= */
+
+/* ---------- server message dispatcher ---------- */
+function netHandle(m) {
+  switch (m.type) {
+
+    case "online": {
+      NET.online = m.n || NET.online;
+      netUI();
+      if (document.body.dataset.view === "queue" && S.netFlow) $("qOnline").textContent = NET.online;
+      break;
+    }
+
+    case "queue_ok": {
+      NET.online = m.online || NET.online;
+      if (document.body.dataset.view === "queue") {
+        $("qTitle").textContent = "Searching the queue";
+        $("qSub").textContent = "Live queue \u2014 first ghost in gets you.";
+        $("qOnline").textContent = NET.online;
+        $("qSim").hidden = true;
+      }
+      break;
+    }
+
+    case "room_created": {
+      S.code = m.code;
+      if (document.body.dataset.view === "roomwait") {
+        $("rwCode").textContent = S.code;
+        $("rwStatus").textContent = "Waiting for an opponent to join\u2026";
+        setRoomChip(S.code);
+      }
+      break;
+    }
+
+    case "matched": {
+      S.opp = { tag: cleanTag(m.opp && m.opp.tag), gr: parseInt(m.opp && m.opp.gr, 10) || 1000 };
+      S.role = m.role;
+      S.code = m.code;
+      S.netDuel = true;
+      S.blocked = false;
+      setupPeer(); /* ← WebRTC starts negotiating here, via the server relay */
+      enterReadyNet(m.private ? "Room " + S.code : "Match found");
+      break;
+    }
+
+    case "peer_ready": {
+      if (document.body.dataset.view === "ready") {
+        const os = $("rdOppStatus");
+        os.innerHTML = '<span class="dot"></span>Ready \u2713';
+        os.classList.add("live");
+        $("rdOppCard").classList.add("locked");
+      }
+      break;
+    }
+
+    case "start": {
+      S.firstTurn = m.firstTurn === "b" ? "b" : "a";
+      S.rematchPending = false;
+      startCountdown(startDuelNet);
+      break;
+    }
+
+    case "signal": {
+      onSignal(m.data); /* WebRTC offer/answer/ICE from the peer */
+      break;
+    }
+
+    case "turn_done": {
+      if (!S.netDuel || !S.inDuel || !S.duel || !S.duel.net) break;
+      if (m.turn === S.duel.turn) {
+        if (S.duel.safety) { clearTimeout(S.duel.safety); S.duel.safety = null; }
+        advanceTurn(m.turn);
+      }
+      break;
+    }
+
+    case "verdict_wait": {
+      if (S.duel && S.duel.net && S.duel.phase === "verdict") {
+        S.duel.oppVoted = true;
+        if (!S.duel.myVote) {
+          $("dlHint").hidden = false;
+          $("dlHint").textContent = "@" + S.opp.tag + " has called it \u2014 your vote decides";
+        }
+      }
+      break;
+    }
+
+    case "verdict_result": {
+      if (S.duel && S.duel.net && (S.duel.phase === "verdict" || S.duel.phase === "turn2")) {
+        netShowResult(m.a || null, m.b || null);
+      }
+      break;
+    }
+
+    case "rematch_requested": {
+      if (S.duel && S.duel.net && S.duel.phase === "result") {
+        $("dlResStatus").textContent = "@" + S.opp.tag + " wants to run it back";
+        if (!S.rematchPending && !S.blocked) $("dlRematch").textContent = "Run it back \u2014 they're in";
+      }
+      break;
+    }
+
+    case "peer_left": {
+      netPeerLeft();
+      break;
+    }
+
+    case "error": {
+      toast(m.msg || "Something went sideways");
+      if (S.mode === "join" && document.body.dataset.view === "roomwait") {
+        show("camcheck");
+        initCamCheck();
+      }
+      break;
+    }
+
+    case "report_ok":
+    default:
+      break;
+  }
+}
+
+/* ---------- net flow: global queue ---------- */
+function netEnterQueue() {
+  S.netFlow = true;
+  S.netDuel = false;
+  S.mode = "global";
+  S.code = null;
+  teardownPeer();
+  show("queue");
+  setRoomChip(null);
+  const on = netOnline();
+  $("qTitle").textContent = on ? "Searching the queue" : "Waking the server";
+  $("qSub").textContent = on ? "Live queue \u2014 first ghost in gets you." : "Free servers nap between duels \u2014 first wake can take ~30s.";
+  $("qOnline").textContent = NET.online || "\u2014";
+  $("qSim").hidden = true;
+  let sec = 0;
+  $("qElapsed").textContent = "0:00";
+  every(() => {
+    sec++;
+    $("qElapsed").textContent = Math.floor(sec / 60) + ":" + String(sec % 60).padStart(2, "0");
+  }, 1000);
+  after(() => { if (!netOnline()) $("qSim").hidden = false; }, 8000);
+  NET.wants = { action: "queue" };
+  if (on) flushWants(); else netConnect();
+}
+
+/* ---------- net flow: host a private room ---------- */
+function netEnterRoomWait() {
+  S.netFlow = true;
+  S.netDuel = false;
+  teardownPeer();
+  show("roomwait");
+  setRoomChip(null);
+  $("rwCode").textContent = "\u2014\u2014\u2014\u2014";
+  $("rwStatus").textContent = netOnline() ? "Opening your room\u2026" : "Waking the server \u2014 first wake can take ~30s\u2026";
+  NET.wants = { action: "host" };
+  if (netOnline()) flushWants(); else netConnect();
+}
+
+/* ---------- net flow: join by code ---------- */
+function netJoinRoom(code) {
+  S.netFlow = true;
+  S.netDuel = false;
+  teardownPeer();
+  show("roomwait");
+  S.code = code;
+  setRoomChip(code);
+  $("rwCode").textContent = code;
+  $("rwStatus").textContent = netOnline() ? "Knocking on the room\u2026" : "Waking the server \u2014 first wake can take ~30s\u2026";
+  NET.wants = { action: "join", code: code };
+  if (netOnline()) flushWants(); else netConnect();
+}
+
+/* ---------- net ready check ---------- */
+function enterReadyNet(kick) {
+  show("ready");
+  setRoomChip(S.code);
+  $("rdKick").textContent = kick;
+  $("rdYouTag").textContent = "@" + S.tag;
+  $("rdYouMeta").textContent = S.gr + " GR \u00B7 " + S.w + "\u2013" + S.l;
+  $("rdOppTag").textContent = "@" + S.opp.tag;
+  $("rdOppMeta").innerHTML = S.opp.gr + " GR \u00B7 Live opponent<br>Honor verdict \u00B7 both of you call it";
+  const ys = $("rdYouStatus"), os = $("rdOppStatus");
+  ys.innerHTML = '<span class="dot"></span>Not ready';
+  ys.classList.remove("live");
+  os.innerHTML = '<span class="dot"></span>Not ready';
+  os.classList.remove("live");
+  $("rdYouCard").classList.remove("locked");
+  $("rdOppCard").classList.remove("locked");
+  $("rdFail").hidden = true;
+  const rb = $("rdReady");
+  rb.disabled = false;
+  rb.textContent = "Ready up";
+  rb.onclick = () => {
+    rb.disabled = true;
+    rb.textContent = "Locked in \u2713";
+    ys.innerHTML = '<span class="dot"></span>Ready \u2713';
+    ys.classList.add("live");
+    $("rdYouCard").classList.add("locked");
+    netSend("ready");
+  };
+}
+
+/* ---------- net duel ---------- */
+function whoseTurn(turn) {
+  const other = S.firstTurn === "a" ? "b" : "a";
+  return turn === 1 ? S.firstTurn : other;
+}
+
+function startDuelNet() {
+  S.inDuel = true;
+  S.rematchPending = false;
+  S.duel = { net: true, phase: "turn1", turn: 1, sent: {}, safety: null, auto: null, myVote: null, oppVoted: false };
+  show("duel");
+  setRoomChip(S.code);
+  setState("LIVE \u00B7 ROUND 1");
+  $("dlYouTag").textContent = "@" + S.tag;
+  $("dlYouGr").textContent = S.gr + " GR";
+  $("dlOppTag").textContent = "@" + S.opp.tag;
+  $("dlOppGr").textContent = S.opp.gr + " GR";
+  $("dlTallyYouTag").textContent = "@" + S.tag;
+  $("dlTallyOppTag").textContent = "@" + S.opp.tag;
+  const useReal = S.cam === "real" && S.stream;
+  $("dlVideo").hidden = !useReal;
+  if (useReal) $("dlVideo").srcObject = S.stream;
+  setSmoke("dlSmokeYou", true, useReal ? 0.15 : 0.5);
+  $("dlSimChip").hidden = true;
+  if (remoteStream) {
+    attachRemote();
+  } else {
+    $("dlRemote").hidden = true;
+    setSmoke("dlSmokeOpp", true, 0.5);
+    setConnOverlay(rtcSupported() ? "Connecting to opponent\u2026" : "No media in this environment");
+  }
+  $("dlResult").hidden = true;
+  $("dlTally").hidden = true;
+  $("dlPctYou").hidden = true;
+  $("dlPctOpp").hidden = true;
+  $("dlHint").hidden = true;
+  $("dlDone").hidden = true;
+  $("dlVoteThem").hidden = true;
+  $("dlVoteMe").hidden = true;
+  const mute = $("dlMute");
+  mute.hidden = !(useReal && S.hasMic);
+  mute.textContent = S.muted ? "Unmute mic" : "Mute mic";
+  mute.onclick = () => {
+    S.muted = !S.muted;
+    if (S.stream) S.stream.getAudioTracks().forEach(t => { t.enabled = !S.muted; });
+    mute.textContent = S.muted ? "Unmute mic" : "Mute mic";
+  };
+  $("abViewers").innerHTML = '<span class="dot"></span>Private 1v1';
+  netPhaseTurn(1);
+}
+
+function netPhaseTurn(turn) {
+  if (!S.inDuel || !S.duel || !S.duel.net) return;
+  S.duel.turn = turn;
+  S.duel.phase = "turn" + turn;
+  const mine = whoseTurn(turn) === S.role;
+  const ms = 12000;
+  setState("LIVE \u00B7 " + (mine ? "YOUR TURN" : "THEIR TURN"));
+  if (mine) {
+    $("dlBanner").innerHTML = '<span class="r">Your turn</span> \u2014 run your trick';
+  } else {
+    $("dlBanner").textContent = "@" + S.opp.tag + "'s turn";
+  }
+  $("dlFeedYou").classList.toggle("turn", mine);
+  $("dlFeedOpp").classList.toggle("turn", !mine);
+  $("dlChipYou").innerHTML = '<span class="dot"></span>' + (mine ? "Performing" : "Live");
+  $("dlChipOpp").innerHTML = '<span class="dot"></span>' + (mine ? "Live" : "Performing");
+  SMOKES["dlSmokeYou"].intensity = S.cam === "real" ? (mine ? 0.3 : 0.15) : (mine ? 1.05 : 0.45);
+  if (SMOKES["dlSmokeOpp"].active) SMOKES["dlSmokeOpp"].intensity = mine ? 0.4 : 1.15;
+  runTimer(ms);
+  const d = S.duel;
+  if (mine) {
+    $("dlDone").hidden = false;
+    $("dlDone").textContent = "Done \u2014 end my turn";
+    d.auto = after(() => doneTurn(turn), ms);
+    $("dlDone").onclick = () => doneTurn(turn);
+  } else {
+    $("dlDone").hidden = true;
+    d.safety = after(() => advanceTurn(turn), ms + 4000);
+  }
+}
+
+function doneTurn(turn) {
+  const d = S.duel;
+  if (!d || !d.net || d.sent[turn]) return;
+  d.sent[turn] = true;
+  if (d.auto) { clearTimeout(d.auto); d.auto = null; }
+  netSend("turn_done", { turn: turn });
+  advanceTurn(turn);
+}
+
+function advanceTurn(turn) {
+  const d = S.duel;
+  if (!S.inDuel || !d || !d.net || d.turn !== turn || d.phase !== "turn" + turn) return;
+  if (turn === 1) netPhaseTurn(2);
+  else netVerdictPhase();
+}
+
+function netVerdictPhase() {
+  const d = S.duel;
+  if (!S.inDuel || !d || !d.net) return;
+  d.phase = "verdict";
+  setState("THE VERDICT");
+  $("dlBanner").innerHTML = '<span class="r">The verdict</span> \u2014 call it honest';
+  $("dlFeedYou").classList.remove("turn");
+  $("dlFeedOpp").classList.remove("turn");
+  $("dlChipYou").innerHTML = '<span class="dot"></span>Live';
+  $("dlChipOpp").innerHTML = '<span class="dot"></span>Live';
+  SMOKES["dlSmokeYou"].intensity = S.cam === "real" ? 0.15 : 0.4;
+  if (SMOKES["dlSmokeOpp"].active) SMOKES["dlSmokeOpp"].intensity = 0.4;
+  $("dlDone").hidden = true;
+  const bThem = $("dlVoteThem"), bMe = $("dlVoteMe");
+  bThem.textContent = "@" + S.opp.tag + " took it";
+  bMe.textContent = "I took it";
+  bThem.hidden = false;
+  bMe.hidden = false;
+  bThem.disabled = false;
+  bMe.disabled = false;
+  if (d.oppVoted) {
+    $("dlHint").hidden = false;
+    $("dlHint").textContent = "@" + S.opp.tag + " has called it \u2014 your vote decides";
+  } else {
+    $("dlHint").hidden = false;
+    $("dlHint").textContent = "Honor system \u2014 you both call the winner";
+  }
+  runTimer(25000);
+  const vote = (pickWhat) => {
+    if (d.myVote) return;
+    d.myVote = pickWhat;
+    netSend("verdict", { pick: pickWhat });
+    bThem.disabled = true;
+    bMe.disabled = true;
+    (pickWhat === "me" ? bMe : bThem).textContent += " \u2713";
+    $("dlHint").textContent = "Waiting on @" + S.opp.tag + "\u2026";
+  };
+  bThem.onclick = () => vote("them");
+  bMe.onclick = () => vote("me");
+  d.safety = after(() => { if (d.phase === "verdict") netShowResult(null, null); }, 32000);
+}
+
+function netShowResult(a, b) {
+  const d = S.duel;
+  if (!S.inDuel || !d || !d.net) return;
+  if (d.safety) { clearTimeout(d.safety); d.safety = null; }
+  d.phase = "result";
+  setState("VERDICT");
+  $("dlVoteThem").hidden = true;
+  $("dlVoteMe").hidden = true;
+  $("dlHint").hidden = true;
+  $("dlDone").hidden = true;
+  $("dlBanner").textContent = "Verdict is in";
+  const winner = (a && b) ? (a === b ? a : "split") : (a || b || "none");
+  let youWin = false, delta = 0, kick, title, count, barPct, status;
+  if (winner === "split") {
+    kick = "Split decision";
+    title = "You both claimed it";
+    count = "1\u20131 honor votes";
+    barPct = 50;
+    status = "No rating change \u2014 run it back and settle it";
+  } else if (winner === "none") {
+    kick = "No verdict";
+    title = "Nobody called it";
+    count = "0 votes cast";
+    barPct = 50;
+    status = "No rating change";
+  } else {
+    youWin = winner === S.role;
+    const unanimous = !!(a && b);
+    delta = youWin ? ri(15, 29) : -ri(11, 23);
+    S.gr = Math.max(100, S.gr + delta);
+    if (youWin) { S.w++; S.streak = S.streak > 0 ? S.streak + 1 : 1; }
+    else { S.l++; S.streak = S.streak < 0 ? S.streak - 1 : -1; }
+    kick = unanimous ? "Unanimous \u2014 you both called it" : "Called by default \u2014 one vote cast";
+    title = youWin ? "You take the room" : "@" + S.opp.tag + " takes it";
+    count = (unanimous ? "2\u20130" : "1\u20130") + " honor votes";
+    barPct = youWin ? 100 : 0;
+    status = "";
+  }
+  $("dlResult").hidden = false;
+  $("dlResult").classList.toggle("win", youWin);
+  $("dlResKick").textContent = kick;
+  $("dlResTitle").textContent = title;
+  $("dlResBarYou").style.width = barPct + "%";
+  $("dlResYouPct").textContent = "@" + S.tag + (winner === S.role ? " \u00B7 winner" : "");
+  $("dlResOppPct").textContent = (winner !== "split" && winner !== "none" && winner !== S.role ? "winner \u00B7 " : "") + "@" + S.opp.tag;
+  $("dlResCount").textContent = count;
+  const sd = delta > 0 ? "+" + delta : (delta < 0 ? String(delta) : "\u00B10");
+  const st = S.streak === 0 ? "\u2014" : (S.streak > 0 ? "W" + S.streak : "L" + Math.abs(S.streak));
+  $("dlResDelta").innerHTML = "<b>" + sd + " GR</b> \u2192 " + S.gr + " GR \u00B7 Streak <b>" + st + "</b> \u00B7 Record " + S.w + "\u2013" + S.l;
+  $("dlResStatus").textContent = status;
+  $("dlYouGr").textContent = S.gr + " GR";
+  S.rematchPending = false;
+  const rb = $("dlRematch");
+  if (S.blocked) { rb.disabled = true; rb.textContent = "Blocked"; }
+  else { rb.disabled = false; rb.textContent = "Run it back"; }
+}
+
+/* ---------- net: opponent gone ---------- */
+function netPeerLeft() {
+  if (!S.netFlow) return;
+  teardownPeer();
+  const view = document.body.dataset.view;
+  if (view === "duel" && S.duel && S.duel.net) {
+    if (S.duel.phase === "result") {
+      S.rematchPending = false;
+      const rb = $("dlRematch");
+      rb.disabled = true;
+      rb.textContent = "Opponent left";
+      $("dlResStatus").textContent = "@" + S.opp.tag + " ghosted \u2014 find a new duel";
+      toast("Opponent ghosted");
+    } else {
+      S.duel.phase = "result";
+      setState("VERDICT");
+      setSmoke("dlSmokeOpp", true, 0.4);
+      $("dlRemote").hidden = true;
+      $("dlConn").hidden = true;
+      $("dlDone").hidden = true;
+      $("dlVoteThem").hidden = true;
+      $("dlVoteMe").hidden = true;
+      $("dlHint").hidden = true;
+      $("dlBanner").textContent = "Opponent ghosted";
+      $("dlResult").hidden = false;
+      $("dlResult").classList.remove("win");
+      $("dlResKick").textContent = "They dipped mid-duel";
+      $("dlResTitle").textContent = "@" + S.opp.tag + " ghosted";
+      $("dlResBarYou").style.width = "50%";
+      $("dlResYouPct").textContent = "@" + S.tag;
+      $("dlResOppPct").textContent = "@" + S.opp.tag;
+      $("dlResCount").textContent = "no contest";
+      $("dlResDelta").innerHTML = "<b>\u00B10 GR</b> \u2192 " + S.gr + " GR \u00B7 No contest";
+      $("dlResStatus").textContent = "No rating change when they ghost";
+      const rb = $("dlRematch");
+      rb.disabled = true;
+      rb.textContent = "Opponent left";
+      toast("@" + S.opp.tag + " ghosted");
+    }
+  } else if (view === "ready") {
+    toast("@" + (S.opp ? S.opp.tag : "opponent") + " ghosted");
+    if (S.mode === "global") netEnterQueue();
+    else leaveEverything();
+  } else if (view === "roomwait") {
+    $("rwStatus").textContent = "They left \u2014 waiting for an opponent to join\u2026";
+  }
+  S.netDuel = false;
+}
+
+/* ═════════════ SIM DRIVER (offline demo — unchanged v1 behavior) ═════════════ */
+
+function simEnterQueue() {
+  S.mode = "global";
+  show("queue");
+  setRoomChip(null);
+  $("qSim").hidden = true;
+  $("qTitle").textContent = "Searching the queue";
+  $("qSub").textContent = "Matching you by rating. Hold tight.";
+  let sec = 0;
+  $("qElapsed").textContent = "0:00";
+  let online = ri(280, 540);
+  $("qOnline").textContent = online;
+  every(() => {
+    sec++;
+    $("qElapsed").textContent = Math.floor(sec / 60) + ":" + String(sec % 60).padStart(2, "0");
+  }, 1000);
+  every(() => { online = Math.max(120, online + ri(-4, 5)); $("qOnline").textContent = online; }, 1800);
+  after(() => {
+    $("qTitle").textContent = "Match found";
+    $("qSub").textContent = "Pulling you both in\u2026";
+    after(() => enterReadySim(newOpp(0.12), "Match found"), 900);
+  }, rnd(2600, 6200));
+}
+$("qCancel").addEventListener("click", () => {
+  if (S.netFlow) netSend("queue_leave");
+  toast("Left the queue");
+  leaveEverything();
+});
+$("qSim").addEventListener("click", () => {
+  NET.wants = null;
+  toast("Offline demo \u2014 opponents are simulated");
+  simEnterQueue();
+});
+
+function simEnterRoomWait() {
+  show("roomwait");
+  setRoomChip(S.code);
+  $("rwCode").textContent = S.code;
+  $("rwStatus").textContent = "Waiting for an opponent to join\u2026";
+  after(() => {
+    const opp = newOpp(0);
+    $("rwStatus").textContent = "@" + opp.tag + " joined the room";
+    after(() => enterReadySim(opp, "Room " + S.code), 900);
+  }, rnd(3800, 7200));
+}
+$("rwCopy").addEventListener("click", async () => {
+  try { await navigator.clipboard.writeText(S.code); toast("Code copied \u2014 " + S.code); }
+  catch (e) { toast("Copy blocked \u2014 code is " + S.code); }
+});
+$("rwLeave").addEventListener("click", () => { toast("Room closed"); leaveEverything(); });
+
+function enterReadySim(opp, kick) {
+  S.opp = opp;
+  S.netDuel = false;
+  show("ready");
+  setRoomChip(S.mode === "global" ? null : S.code);
+  $("rdKick").textContent = kick;
+  $("rdYouTag").textContent = "@" + S.tag;
+  $("rdYouMeta").textContent = S.gr + " GR \u00B7 " + S.w + "\u2013" + S.l;
+  $("rdOppTag").textContent = "@" + opp.tag;
+  $("rdOppMeta").innerHTML = opp.gr + " GR \u00B7 " + opp.rec + "<br>Signature \u00B7 " + opp.sig;
+  const ys = $("rdYouStatus"), os = $("rdOppStatus");
+  ys.innerHTML = '<span class="dot"></span>Not ready';
+  ys.classList.remove("live");
+  os.innerHTML = '<span class="dot"></span>Readying\u2026';
+  os.classList.remove("live");
+  $("rdYouCard").classList.remove("locked");
+  $("rdOppCard").classList.remove("locked");
+  $("rdFail").hidden = true;
+  const rb = $("rdReady");
+  rb.disabled = false;
+  rb.textContent = "Ready up";
+  let youReady = false, oppReady = false;
+  function maybeStart() { if (youReady && oppReady) after(() => startCountdown(startDuelSim), 500); }
+  if (!opp.noReady) {
+    after(() => {
+      oppReady = true;
+      os.innerHTML = '<span class="dot"></span>Ready \u2713';
+      os.classList.add("live");
+      $("rdOppCard").classList.add("locked");
+      maybeStart();
+    }, rnd(900, 2600));
+  } else {
+    after(() => {
+      $("rdFail").hidden = false;
+      rb.disabled = true;
+      after(() => {
+        if (S.mode === "global") { toast("Requeued"); simEnterQueue(); }
+        else { toast("Opponent left"); leaveEverything(); }
+      }, 1700);
+    }, 5200);
+  }
+  rb.onclick = () => {
+    youReady = true;
+    rb.disabled = true;
+    rb.textContent = "Locked in \u2713";
+    ys.innerHTML = '<span class="dot"></span>Ready \u2713';
+    ys.classList.add("live");
+    $("rdYouCard").classList.add("locked");
+    maybeStart();
+  };
+}
+$("rdLeave").addEventListener("click", () => { toast("Left the lobby"); leaveEverything(); });
+
+/* ---------- countdown (shared) ---------- */
+const CD_C = 653.45;
+function startCountdown(cb) {
+  const go = cb || startDuelSim;
+  killTimers();
+  setState("COUNTDOWN");
+  const ov = $("cdOverlay");
+  ov.hidden = false;
+  let n = 3;
+  const num = $("cdNum"), arc = $("cdArc");
+  function tick() {
+    num.classList.remove("punch"); void num.offsetWidth;
+    if (n > 0) {
+      num.textContent = n;
+      num.classList.remove("go");
+      num.classList.add("punch");
+      arc.style.transition = "none";
+      arc.style.strokeDashoffset = CD_C;
+      void arc.getBoundingClientRect();
+      arc.style.transition = "stroke-dashoffset 1s linear";
+      arc.style.strokeDashoffset = "0";
+      n--;
+      after(tick, 1000);
+    } else {
+      num.textContent = "GO";
+      num.classList.add("go", "punch");
+      after(() => { ov.hidden = true; go(); }, 750);
+    }
+  }
+  tick();
+}
+
+/* ---------- sim duel ---------- */
+function startDuelSim() {
+  S.inDuel = true;
+  S.rematchPending = false;
+  S.netDuel = false;
+  S.duel = { phase: "pre", winner: null, vYou: 0, vOpp: 0, viewers: ri(14, 42) };
+  show("duel");
+  if (!S.code) S.code = "GHST-Q" + ri(10, 99);
+  setRoomChip(S.code);
+  setState("LIVE \u00B7 ROUND 1");
+  $("dlYouTag").textContent = "@" + S.tag;
+  $("dlYouGr").textContent = S.gr + " GR";
+  $("dlOppTag").textContent = "@" + S.opp.tag;
+  $("dlOppGr").textContent = S.opp.gr + " GR";
+  $("dlTallyYouTag").textContent = "@" + S.tag;
+  $("dlTallyOppTag").textContent = "@" + S.opp.tag;
+  const useReal = S.cam === "real" && S.stream;
+  $("dlVideo").hidden = !useReal;
+  if (useReal) $("dlVideo").srcObject = S.stream;
+  setSmoke("dlSmokeYou", true, useReal ? 0.15 : 0.5);
+  setSmoke("dlSmokeOpp", true, 0.5);
+  $("dlRemote").hidden = true;
+  $("dlConn").hidden = true;
+  $("dlSimChip").hidden = false;
+  $("dlVoteThem").hidden = true;
+  $("dlVoteMe").hidden = true;
+  $("dlMute").hidden = true;
+  $("dlResult").hidden = true;
+  $("dlTally").hidden = true;
+  $("dlPctYou").hidden = true;
+  $("dlPctOpp").hidden = true;
+  $("dlHint").hidden = true;
+  $("dlDone").hidden = true;
+  viewersLoop();
+  phaseTurnYou();
+}
+
+function viewersLoop() {
+  const set = () => { $("abViewers").innerHTML = '<span class="dot"></span>' + S.duel.viewers + " watching"; };
+  set();
+  every(() => { S.duel.viewers = Math.max(6, S.duel.viewers + ri(-2, 3)); set(); }, 2200);
+}
+
+function runTimer(ms) {
+  const f = $("dlTimerFill");
+  f.style.transition = "none";
+  f.style.transform = "scaleX(1)";
+  void f.getBoundingClientRect();
+  f.style.transition = "transform " + ms + "ms linear";
+  f.style.transform = "scaleX(0)";
+}
+
+function phaseTurnYou() {
+  if (!S.inDuel) return;
+  S.duel.phase = "turn-you";
+  setState("LIVE \u00B7 YOUR TURN");
+  $("dlBanner").innerHTML = '<span class="r">Your turn</span> \u2014 run your trick';
+  $("dlFeedYou").classList.add("turn");
+  $("dlFeedOpp").classList.remove("turn");
+  $("dlChipYou").innerHTML = '<span class="dot"></span>Performing';
+  $("dlChipOpp").innerHTML = '<span class="dot"></span>Live';
+  SMOKES["dlSmokeYou"].intensity = S.cam === "real" ? 0.3 : 1.05;
+  SMOKES["dlSmokeOpp"].intensity = 0.4;
+  $("dlDone").hidden = false;
+  const ms = 12000;
+  runTimer(ms);
+  const tid = after(phaseTurnOpp, ms);
+  $("dlDone").onclick = () => { clearTimeout(tid); phaseTurnOpp(); };
+}
+
+function phaseTurnOpp() {
+  if (!S.inDuel || S.duel.phase !== "turn-you") return;
+  S.duel.phase = "turn-opp";
+  setState("LIVE \u00B7 THEIR TURN");
+  $("dlBanner").textContent = "@" + S.opp.tag + "'s turn";
+  $("dlDone").hidden = true;
+  $("dlFeedYou").classList.remove("turn");
+  $("dlFeedOpp").classList.add("turn");
+  $("dlChipYou").innerHTML = '<span class="dot"></span>Live';
+  $("dlChipOpp").innerHTML = '<span class="dot"></span>Performing';
+  SMOKES["dlSmokeYou"].intensity = S.cam === "real" ? 0.15 : 0.45;
+  SMOKES["dlSmokeOpp"].intensity = 1.15;
+  const ms = ri(6500, 9000);
+  runTimer(ms);
+  after(phaseVoting, ms);
+}
+
+function phaseVoting() {
+  if (!S.inDuel || S.duel.phase !== "turn-opp") return;
+  S.duel.phase = "voting";
+  setState("VOTING");
+  $("dlBanner").innerHTML = '<span class="r">Voting open</span> \u2014 the room decides';
+  $("dlFeedYou").classList.remove("turn");
+  $("dlFeedOpp").classList.remove("turn");
+  $("dlChipYou").innerHTML = '<span class="dot"></span>Live';
+  $("dlChipOpp").innerHTML = '<span class="dot"></span>Live';
+  SMOKES["dlSmokeYou"].intensity = S.cam === "real" ? 0.15 : 0.4;
+  SMOKES["dlSmokeOpp"].intensity = 0.4;
+  $("dlDone").hidden = true;
+  $("dlTally").hidden = false;
+  $("dlHint").hidden = false;
+  $("dlHint").textContent = "Hold the frame \u2014 voting is open";
+  $("dlPctYou").hidden = false;
+  $("dlPctOpp").hidden = false;
+  paintTally();
+
+  const youWin = Math.random() < 0.55;
+  S.duel.winner = youWin ? "you" : "opp";
+  const share = rnd(0.53, 0.79);
+  const V = Math.max(5, S.duel.viewers);
+  let target = Math.round(V * (youWin ? share : 1 - share));
+  if (youWin) target = Math.min(V, Math.max(Math.floor(V / 2) + 1, target));
+  else target = Math.max(0, Math.min(Math.ceil(V / 2) - 1, target));
+  const ballots = [];
+  for (let i = 0; i < V; i++) ballots.push(i < target ? "you" : "opp");
+  for (let i = ballots.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    const tmp = ballots[i]; ballots[i] = ballots[j]; ballots[j] = tmp;
+  }
+
+  const VOTE_MS = 9500;
+  runTimer(VOTE_MS);
+  let left = Math.round(VOTE_MS / 1000);
+  $("dlVoteLeft").textContent = "0:" + String(left).padStart(2, "0");
+  every(() => {
+    left = Math.max(0, left - 1);
+    $("dlVoteLeft").textContent = "0:" + String(left).padStart(2, "0");
+  }, 1000);
+  ballots.forEach(b => {
+    after(() => {
+      if (!S.inDuel || S.duel.phase !== "voting") return;
+      if (b === "you") S.duel.vYou++; else S.duel.vOpp++;
+      paintTally();
+    }, rnd(300, 8600));
+  });
+  after(lockVotes, VOTE_MS);
+}
+
+function paintTally() {
+  const t = S.duel.vYou + S.duel.vOpp;
+  const py = t === 0 ? 50 : Math.round((S.duel.vYou / t) * 100);
+  $("dlVotesYou").textContent = S.duel.vYou;
+  $("dlVotesOpp").textContent = S.duel.vOpp;
+  $("dlBarYou").style.width = py + "%";
+  $("dlPctYou").textContent = py + "%";
+  $("dlPctOpp").textContent = (100 - py) + "%";
+}
+
+function lockVotes() {
+  if (!S.inDuel || S.duel.phase !== "voting") return;
+  S.duel.phase = "locked";
+  setState("VOTES LOCKED");
+  $("dlBanner").textContent = "Votes locked";
+  $("dlHint").hidden = true;
+  after(showResultSim, 900);
+}
+
+function showResultSim() {
+  if (!S.inDuel) return;
+  S.duel.phase = "result";
+  setState("VERDICT");
+  const youWin = S.duel.winner === "you";
+  const t = Math.max(1, S.duel.vYou + S.duel.vOpp);
+  const py = Math.round((S.duel.vYou / t) * 100);
+  const delta = youWin ? ri(15, 29) : -ri(11, 23);
+  S.gr = Math.max(100, S.gr + delta);
+  if (youWin) { S.w++; S.streak = S.streak > 0 ? S.streak + 1 : 1; }
+  else { S.l++; S.streak = S.streak < 0 ? S.streak - 1 : -1; }
+  $("dlBanner").textContent = "Verdict is in";
+  $("dlHint").hidden = true;
+  $("dlDone").hidden = true;
+  $("dlResult").hidden = false;
+  $("dlResult").classList.toggle("win", youWin);
+  $("dlResKick").textContent = "The room has decided";
+  $("dlResTitle").textContent = youWin ? "You take the room" : "@" + S.opp.tag + " takes it";
+  $("dlResBarYou").style.width = py + "%";
+  $("dlResYouPct").textContent = "@" + S.tag + " \u00B7 " + py + "%";
+  $("dlResOppPct").textContent = (100 - py) + "% \u00B7 @" + S.opp.tag;
+  $("dlResCount").textContent = t + " votes";
+  const sd = delta > 0 ? "+" + delta : String(delta);
+  const st = S.streak > 0 ? "W" + S.streak : "L" + Math.abs(S.streak);
+  $("dlResDelta").innerHTML = "<b>" + sd + " GR</b> \u2192 " + S.gr + " GR \u00B7 Streak <b>" + st + "</b> \u00B7 Record " + S.w + "\u2013" + S.l;
+  $("dlResStatus").textContent = "";
+  $("dlYouGr").textContent = S.gr + " GR";
+  S.rematchPending = false;
+  const rb = $("dlRematch");
+  if (S.blocked) { rb.disabled = true; rb.textContent = "Blocked"; }
+  else { rb.disabled = false; rb.textContent = "Run it back"; }
+}
+
+/* ---------- rematch / new / leave (shared, branching) ---------- */
+$("dlRematch").addEventListener("click", () => {
+  if (S.rematchPending || S.blocked || !S.opp) return;
+  const rb = $("dlRematch");
+  if (S.netDuel) {
+    S.rematchPending = true;
+    rb.disabled = true;
+    rb.textContent = "Waiting on @" + S.opp.tag + "\u2026";
+    $("dlResStatus").textContent = "Rematch request sent \u2014 they have to tap it too";
+    netSend("rematch");
+    return;
+  }
+  S.rematchPending = true;
+  rb.disabled = true;
+  rb.textContent = "Waiting on @" + S.opp.tag + "\u2026";
+  $("dlResStatus").textContent = "Rematch request sent";
+  after(() => {
+    if (S.blocked) { rb.textContent = "Blocked"; return; }
+    if (Math.random() < 0.72) {
+      toast("@" + S.opp.tag + " is in \u2014 run it back");
+      startCountdown(startDuelSim);
+    } else {
+      S.rematchPending = false;
+      rb.textContent = "Opponent left";
+      $("dlResStatus").textContent = "@" + S.opp.tag + " ghosted \u2014 find a new duel";
+      toast("Opponent ghosted");
+    }
+  }, rnd(1300, 2800));
+});
+$("dlNew").addEventListener("click", () => {
+  const wasNet = S.netFlow && netAvailable();
+  resetMatchFlags();
+  S.duel = null; S.opp = null; S.code = null;
+  teardownPeer();
+  if (wasNet) netEnterQueue();
+  else simEnterQueue();
+});
+$("dlLeave").addEventListener("click", () => { toast("Left the room"); leaveEverything(); });
+
+/* ---------- report / block ---------- */
+function openReport() {
+  if (!S.opp) { toast("No opponent to report"); return; }
+  $("mrWho").textContent = "@" + S.opp.tag;
+  document.querySelectorAll("#mrList input").forEach(r => { r.checked = false; });
+  $("mrText").value = "";
+  $("mrBlock").checked = false;
+  $("mrSendEnd").hidden = !duelIsLive();
+  $("mReport").hidden = false;
+}
+$("abReport").addEventListener("click", openReport);
+$("dlRepLink").addEventListener("click", openReport);
+$("mrCancel").addEventListener("click", () => { $("mReport").hidden = true; });
+$("mrSend").addEventListener("click", () => sendReport(false));
+$("mrSendEnd").addEventListener("click", () => sendReport(true));
+function sendReport(endToo) {
+  const r = document.querySelector("#mrList input:checked");
+  if (!r) { toast("Pick a reason first"); return; }
+  netSend("report", { reason: r.value || r.parentElement.textContent.trim(), note: $("mrText").value.slice(0, 500) });
+  $("mReport").hidden = true;
+  toast("Report sent \u2014 every report gets reviewed");
+  if ($("mrBlock").checked) doBlock();
+  if (endToo) {
+    toast("Duel ended \u2014 safety exits never cost rating");
+    leaveEverything();
+  }
+}
+function doBlock() {
+  if (!S.opp || S.blocked) return;
+  S.blocked = true;
+  toast("Blocked @" + S.opp.tag + " \u2014 they can't match you again");
+  const rb = $("dlRematch");
+  rb.disabled = true;
+  rb.textContent = "Blocked";
+}
+$("dlBlockLink").addEventListener("click", doBlock);
+
+/* ---------- end duel ---------- */
+function duelIsLive() {
+  if (!S.inDuel || !S.duel) return false;
+  if (S.duel.net) return ["turn1", "turn2", "verdict"].indexOf(S.duel.phase) !== -1;
+  return ["turn-you", "turn-opp", "voting", "locked"].indexOf(S.duel.phase) !== -1;
+}
+function openEndModal() {
+  $("meNote").textContent = duelIsLive()
+    ? "A live round counts as a forfeit if you leave now."
+    : "You'll leave the room. The duel is already decided \u2014 no penalty.";
+  $("mEnd").hidden = false;
+}
+$("abEnd").addEventListener("click", openEndModal);
+$("meCancel").addEventListener("click", () => { $("mEnd").hidden = true; });
+$("meConfirm").addEventListener("click", () => {
+  $("mEnd").hidden = true;
+  if (duelIsLive()) {
+    const d = ri(11, 23);
+    S.gr = Math.max(100, S.gr - d);
+    S.l++;
+    S.streak = S.streak < 0 ? S.streak - 1 : -1;
+    toast("Duel ended \u2014 forfeit, \u2212" + d + " GR");
+  } else {
+    toast("Left the room");
+  }
+  leaveEverything();
+});
+
+/* ---------- cleanup ---------- */
+function resetMatchFlags() {
+  S.inDuel = false;
+  S.blocked = false;
+  S.rematchPending = false;
+  S.role = null;
+  S.firstTurn = null;
+  S.netDuel = false;
+}
+function leaveEverything() {
+  if (S.netFlow) {
+    netSend("queue_leave");
+    netSend("leave_room");
+  }
+  NET.wants = null;
+  teardownPeer();
+  resetMatchFlags();
+  S.netFlow = false;
+  S.duel = null; S.opp = null; S.mode = null; S.code = null;
+  stopCam();
+  setRoomChip(null);
+  show("landing");
+}
+function stopCam() {
+  if (S.stream) { S.stream.getTracks().forEach(t => t.stop()); S.stream = null; }
+  S.cam = "none";
+  S.hasMic = false;
+  S.muted = false;
+  $("ccVideo").srcObject = null;
+  $("dlVideo").srcObject = null;
+  $("ccVideo").hidden = true;
+  $("dlVideo").hidden = true;
+}
+
+/* ---------- leaderboard ---------- */
+function refreshBoardYou() {
+  $("lbTag").textContent = "@" + S.tag;
+  $("lbGr").textContent = S.gr + " GR";
+  $("lbRec").textContent = S.w + "\u2013" + S.l;
+  $("lbStreak").textContent = S.streak === 0 ? "\u2014" : (S.streak > 0 ? "W" + S.streak : "L" + Math.abs(S.streak));
+  const games = S.w + S.l;
+  if (games === 0) $("lbRank").textContent = "Unranked";
+  else if (games < 5) $("lbRank").textContent = "Placements " + games + "/5";
+  else $("lbRank").textContent = "#" + Math.max(11, 1400 - (S.gr - 1000) * 2);
+}
+
+/* ---------- misc ---------- */
+$("demoChipX").addEventListener("click", () => {
+  S.demoChipHidden = true;
+  $("demoChip").style.display = "none";
+});
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Escape") ["mJoin", "mReport", "mEnd"].forEach(id => { $(id).hidden = true; });
+});
+
+/* ---------- init ---------- */
+setSmoke("hdA", true, 0.5);
+setSmoke("hdB", true, 0.5);
+startHeroDemo();
+refreshBoardYou();
+netUI();
+netConnect(); /* pre-warm: wakes a sleeping Render server the moment the page opens */
+
+/* ═══════════════════════════════════════════════════════════
+   SPECTRAL FX LAYER — motion with consent
+   Every effect is gated: fine pointers only for the cursor,
+   IntersectionObserver support for reveals, and
+   prefers-reduced-motion is honored throughout (PRM const
+   from the engine above). GPU-only properties: transform,
+   opacity, filter.
+   ═══════════════════════════════════════════════════════════ */
+(function spectralFX() {
+  const H = document.documentElement;
+  const FINE = window.matchMedia && window.matchMedia("(pointer:fine)").matches;
+  const HAS_IO = "IntersectionObserver" in window;
+
+  /* ---- cinematic first breath: fade the room in ---- */
+  const veil = document.createElement("div");
+  veil.id = "bootVeil";
+  document.body.appendChild(veil);
+  requestAnimationFrame(() => requestAnimationFrame(() => veil.classList.add("off")));
+  setTimeout(() => veil.remove(), 1600);
+
+  /* ---- scroll reveals: elements written into view ---- */
+  if (HAS_IO && !PRM) {
+    H.classList.add("fx");
+    const els = Array.prototype.slice.call(document.querySelectorAll("[data-reveal]"));
+    /* stagger siblings that share a parent (hero pieces cascade) */
+    const byParent = new Map();
+    els.forEach(el => {
+      const p = el.parentElement;
+      const n = byParent.get(p) || 0;
+      el.style.setProperty("--rd", (n * 110) + "ms");
+      byParent.set(p, n + 1);
+    });
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add("is-in");
+          io.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.12, rootMargin: "0px 0px -7% 0px" });
+    els.forEach(el => io.observe(el));
+  } else {
+    /* no observer or reduced motion: everything simply present */
+    document.querySelectorAll("[data-reveal]").forEach(el => el.classList.add("is-in"));
+  }
+
+  /* ---- ambient parallax: the light lags behind the scroll ---- */
+  if (!PRM) {
+    const blobs = document.getElementById("fxBlobs");
+    let queued = false;
+    window.addEventListener("scroll", () => {
+      if (queued) return;
+      queued = true;
+      requestAnimationFrame(() => {
+        blobs.style.transform = "translateY(" + (window.scrollY * -0.045) + "px)";
+        queued = false;
+      });
+    }, { passive: true });
+  }
+
+  /* ---- custom cursor: a following spirit (desktop only) ---- */
+  if (FINE) {
+    H.classList.add("fine-pointer");
+    const dot = document.querySelector("#fxCursor .c-dot");
+    const ring = document.querySelector("#fxCursor .c-ring");
+    let mx = innerWidth / 2, my = innerHeight / 2;   /* target */
+    let rx = mx, ry = my;                            /* ring, easing behind */
+    let raf = null;
+    const HOT = "a,button,input,textarea,label,select,.linkish,.step,.mode,.pcard,.tick,[data-start],[data-go]";
+
+    document.addEventListener("mousemove", (e) => {
+      mx = e.clientX; my = e.clientY;
+      dot.style.transform = "translate(" + mx + "px," + my + "px)";
+      if (!raf) loop();
+    }, { passive: true });
+
+    function loop() {
+      raf = requestAnimationFrame(() => {
+        rx += (mx - rx) * 0.16;
+        ry += (my - ry) * 0.16;
+        ring.style.transform = "translate(" + rx + "px," + ry + "px)";
+        if (Math.abs(mx - rx) + Math.abs(my - ry) > 0.3) loop();
+        else raf = null;
+      });
+    }
+    document.addEventListener("mouseover", (e) => {
+      if (e.target.closest && e.target.closest(HOT)) H.classList.add("cursor-hot");
+    }, { passive: true });
+    document.addEventListener("mouseout", (e) => {
+      if (e.target.closest && e.target.closest(HOT)) H.classList.remove("cursor-hot");
+    }, { passive: true });
+    document.addEventListener("mousedown", () => H.classList.add("cursor-down"), { passive: true });
+    document.addEventListener("mouseup", () => H.classList.remove("cursor-down"), { passive: true });
+  }
+
+  /* ---- view transitions: each room fades into being ---- */
+  const showBase = show;
+  show = function spectralShow(v) {
+    showBase(v);
+    const el = document.getElementById("v-" + v);
+    if (el) {
+      el.classList.remove("v-in");
+      void el.offsetWidth;             /* restart the animation */
+      el.classList.add("v-in");
+    }
+  };
+})();
+
+</script>
+</body>
+</html>
